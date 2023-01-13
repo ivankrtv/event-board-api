@@ -2,12 +2,15 @@ import * as dotenv from 'dotenv';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from "./users/user.module";
-import { EventModule } from "./events/event.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserEntity } from "./users/user.entity";
-import { EventEntity } from "./events/event.entity";
-import { ParticipantsEntity } from "./participants/participants.entity";
+import { ConfigModule } from '@nestjs/config';
+import { UserModule } from "./core/users/user.module";
+import { EventModule } from "./core/events/event.module";
+import {TypeOrmModule, TypeOrmModuleOptions} from "@nestjs/typeorm";
+import { UserEntity } from "./core/users/user.entity";
+import { EventEntity } from "./core/events/event.entity";
+import { ParticipantsEntity } from "./core/participants/participants.entity";
+import { loadConfig } from "../configs/configuration";
+import {dbConfig} from "../configs/database.config";
 
 dotenv.config();
 
@@ -15,16 +18,12 @@ dotenv.config();
   imports: [
     UserModule,
     EventModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOSTNAME,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [UserEntity, EventEntity, ParticipantsEntity],
-      synchronize: true,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      load: [loadConfig],
     }),
+    TypeOrmModule.forRoot(dbConfig as TypeOrmModuleOptions),
   ],
   controllers: [AppController],
   providers: [AppService],
