@@ -1,4 +1,4 @@
 export enum ParticipantRoleEnum {
-  "organizer"="organizer",
-  "joiner"="joiner"
+  'organizer' = 'organizer',
+  'joiner' = 'joiner',
 }

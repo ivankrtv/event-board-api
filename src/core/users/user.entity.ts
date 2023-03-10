@@ -1,30 +1,30 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { GenderEnum } from "../../enums/gender.enum";
-import { ParticipantsEntity } from "../participants/participants.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { GenderEnum } from '../../enums/gender.enum';
+import { ParticipantsEntity } from '../participants/participants.entity';
 
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column("character varying")
+  @Column('character varying')
   name: string;
 
-  @Column("character varying")
+  @Column('character varying')
   password: string;
 
-  @Column("character varying")
+  @Column('character varying')
   email: string;
 
-  @Column("character varying")
+  @Column('character varying')
   gender: GenderEnum;
 
-  @Column("character varying")
+  @Column('character varying')
   group: string;
 
-  @Column("character varying", { nullable: true })
+  @Column('character varying', { nullable: true })
   dormitory: string;
 
-  @OneToMany(() => ParticipantsEntity, participant => participant.user)
-  events: ParticipantsEntity[]
+  @OneToMany(() => ParticipantsEntity, (participant) => participant.user)
+  events: ParticipantsEntity[];
 }
