@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import { EventStatusEnum } from "../../enums/event-status.enum";
 import { EventsGenderEnum } from "../../enums/events-gender.enum";
 import { ParticipantsEntity } from "../participants/participants.entity";
@@ -34,6 +34,9 @@ export class EventEntity {
 
   @Column("character varying")
   gender: EventsGenderEnum;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
   @OneToMany(() => ParticipantsEntity,participant => participant.event)
   users: ParticipantsEntity[];

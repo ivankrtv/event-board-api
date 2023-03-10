@@ -5,7 +5,7 @@ import { ParticipantsEntity } from "../participants/participants.entity";
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column("character varying")
   name: string;
@@ -22,7 +22,7 @@ export class UserEntity {
   @Column("character varying")
   group: string;
 
-  @Column("character varying")
+  @Column("character varying", { nullable: true })
   dormitory: string;
 
   @OneToMany(() => ParticipantsEntity, participant => participant.user)
