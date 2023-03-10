@@ -17,20 +17,20 @@ export class EventEntity {
   @Column("text")
   description: string;
 
-  @Column("character varying")
-  event_place: string;
+  @Column("character varying", { name: 'event_place' })
+  eventPlace: string;
 
-  @Column("integer")
-  people_need: number;
+  @Column("integer", { name: 'people_need' })
+  peopleNeed: number;
 
-  @Column("integer")
-  people_joined: number;
+  @Column("integer", { name: 'people_joined' })
+  peopleJoined: number;
 
   @Column("character varying")
   status: EventStatusEnum;
 
-  @Column("timestamp without time zone")
-  start_at: Date;
+  @Column("timestamp without time zone", { name: 'start_at' })
+  startAt: Date;
 
   @Column("character varying")
   gender: EventsGenderEnum;
