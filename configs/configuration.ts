@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -10,9 +10,14 @@ export type DatabaseConfig = {
   password: string;
 };
 
+export type HashConfig = {
+  saltRounds: number;
+};
+
 export type Configuration = {
   db: DatabaseConfig;
-}
+  hash: HashConfig;
+};
 
 export const loadConfig = (): Configuration => {
   return {
@@ -22,6 +27,9 @@ export const loadConfig = (): Configuration => {
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-    }
-  }
-}
+    },
+    hash: {
+      saltRounds: Number(process.env.HASH_SALT_ROUNDS),
+    },
+  };
+};

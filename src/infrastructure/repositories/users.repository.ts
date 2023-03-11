@@ -9,4 +9,12 @@ export class UsersRepository {
     @InjectRepository(UserEntity)
     private readonly repo: Repository<UserEntity>,
   ) {}
+
+  async save(user: UserEntity): Promise<UserEntity> {
+    return await this.repo.save(user);
+  }
+
+  async getByEmail(email: string): Promise<UserEntity | null> {
+    return await this.repo.createQueryBuilder('users').where('users.email = :email', { email: email }).getOne();
+  }
 }
