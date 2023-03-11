@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { loadConfig } from "./configuration";
-import {UserEntity} from "../src/core/users/user.entity";
-import {EventEntity} from "../src/core/events/event.entity";
-import {ParticipantsEntity} from "../src/core/participants/participants.entity";
+import {UserEntity} from "../src/domain/users/user.entity";
+import {EventEntity} from "../src/domain/events/event.entity";
+import {ParticipantsEntity} from "../src/domain/participants/participants.entity";
 
 dotenv.config();
 const { db } = loadConfig();

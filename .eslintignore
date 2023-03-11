@@ -1,2 +1,2 @@
 .eslintrc.json
-/src/migrations
+/src/infrastructure/migrations
