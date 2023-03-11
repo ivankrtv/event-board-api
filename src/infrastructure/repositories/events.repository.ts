@@ -9,4 +9,8 @@ export class EventsRepository {
     @InjectRepository(EventEntity)
     protected repo: Repository<EventEntity>,
   ) {}
+
+  async save(event: EventEntity): Promise<EventEntity> {
+    return await this.repo.save(event);
+  }
 }
