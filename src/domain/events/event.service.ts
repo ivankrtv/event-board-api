@@ -3,6 +3,8 @@ import { EventsRepository } from '../../infrastructure/repositories/events.repos
 import { CreateEventDto } from '../../application/DTO/events/create-event.dto';
 import { NewIdResponseDto } from '../../application/DTO/new-id-response.dto';
 import { EventsBuilders } from './events.builders';
+import { PaginatedDto } from '../../application/DTO/paginated.dto';
+import { EventsListDto } from '../../application/DTO/events/events-list.dto';
 
 @Injectable()
 export class EventService {
@@ -18,10 +20,11 @@ export class EventService {
     return { id: id };
   }
 
-  getEventsList() {
+  async getEventsList(page: number): Promise<PaginatedDto<EventsListDto>> {
+    const [events, count] = await this.eventsRepository.getList(page);
     return {
-      events: [],
-      page: 0,
+      data: events,
+      totalCount: count,
     };
   }
 }
