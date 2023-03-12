@@ -5,10 +5,15 @@ import { NewIdResponseDto } from '../../application/DTO/new-id-response.dto';
 import { EventsBuilders } from './events.builders';
 import { PaginatedDto } from '../../application/DTO/paginated.dto';
 import { EventsListDto } from '../../application/DTO/events/events-list.dto';
+import { QueueManager } from '../../infrastructure/managers/queue.manager';
 
 @Injectable()
 export class EventService {
-  constructor(private readonly eventsRepository: EventsRepository, private readonly eventsBuilders: EventsBuilders) {}
+  constructor(
+    private readonly eventsRepository: EventsRepository,
+    private readonly eventsBuilders: EventsBuilders,
+    private readonly queueManager: QueueManager,
+  ) {}
 
   async createEvent(body: CreateEventDto): Promise<NewIdResponseDto> {
     if (new Date(body.startAt) < new Date()) {
@@ -16,8 +21,9 @@ export class EventService {
     }
 
     const newEvent = this.eventsBuilders.buildNewEventEntity(body);
-    const { id } = await this.eventsRepository.save(newEvent);
-    return { id: id };
+    const event = await this.eventsRepository.save(newEvent);
+    this.queueManager.sendMessage(event);
+    return { id: event.id };
   }
 
   async getEventsList(page: number): Promise<PaginatedDto<EventsListDto>> {
