@@ -4,6 +4,14 @@
 
 Backend Application for Event Board Project
 
+## Navigation
+1. [Installation](https://github.com/ivankrtv/event-board-api#installation)
+2. [Database installation (postgres)](https://github.com/ivankrtv/event-board-api#database-installation-postgres)
+3. [Environments](https://github.com/ivankrtv/event-board-api#environments)
+4. [Rabbit MQ installation](https://github.com/ivankrtv/event-board-api#rabbit-mq)
+5. [File structure of project](https://github.com/ivankrtv/event-board-api#file-structure)
+6. [Running the app](https://github.com/ivankrtv/event-board-api#running-the-app)
+
 ## Installation
 
 ### Подтянуть себе проект:
@@ -110,4 +118,3 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
-`
