@@ -14,9 +14,18 @@ export type HashConfig = {
   saltRounds: number;
 };
 
+export type RabbitConf = {
+  username: string;
+  password: string;
+  host: string;
+  port: number;
+  queueName: string;
+};
+
 export type Configuration = {
   db: DatabaseConfig;
   hash: HashConfig;
+  rabbit: RabbitConf;
 };
 
 export const loadConfig = (): Configuration => {
@@ -30,6 +39,13 @@ export const loadConfig = (): Configuration => {
     },
     hash: {
       saltRounds: Number(process.env.HASH_SALT_ROUNDS),
+    },
+    rabbit: {
+      username: process.env.RABBIT_USERNAME,
+      password: process.env.RABBIT_PASSWORD,
+      host: process.env.RABBIT_HOST,
+      port: Number(process.env.RABBIT_PORT),
+      queueName: process.env.RABBIT_QUEUE_NAME,
     },
   };
 };
