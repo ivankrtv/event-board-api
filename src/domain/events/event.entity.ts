@@ -8,7 +8,7 @@ export class EventEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('character varying')
+  @Column('character varying', { nullable: true })
   image: string;
 
   @Column('character varying')
