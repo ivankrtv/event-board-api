@@ -16,6 +16,8 @@ export class EventsBuilders {
     event.gender = body.gender;
     event.eventPlace = body.eventPlace;
     event.status = EventStatusEnum.active;
+    event.category = body.category;
+    event.mood = body.mood;
 
     return event;
   }
