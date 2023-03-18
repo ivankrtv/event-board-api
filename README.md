@@ -1,4 +1,4 @@
-![img.png](github/images/ph.jpg)
+![img.png](.github/images/ph.jpg)
 
 ## Description
 
