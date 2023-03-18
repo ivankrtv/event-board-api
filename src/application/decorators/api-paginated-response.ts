@@ -11,7 +11,7 @@ export function ApiPaginatedResponse<Model extends Type<unknown>>(model: Model) 
           { $ref: getSchemaPath(PaginatedDto) },
           {
             properties: {
-              results: {
+              data: {
                 type: 'array',
                 items: { $ref: getSchemaPath(model) },
               },
