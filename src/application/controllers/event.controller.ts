@@ -4,7 +4,7 @@ import { CreateEventDto } from '../DTO/events/create-event.dto';
 import { NewIdResponseDto } from '../DTO/new-id-response.dto';
 import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
 import { ApiPaginatedResponse } from '../decorators/api-paginated-response';
-import { EventsListDto } from '../DTO/events/events-list.dto';
+import { EventsCardDto } from '../DTO/events/events-card.dto';
 
 @Controller('/event')
 export class EventController {
@@ -16,7 +16,7 @@ export class EventController {
     return await this.eventService.createEvent(body);
   }
 
-  @ApiPaginatedResponse(EventsListDto)
+  @ApiPaginatedResponse(EventsCardDto)
   @ApiParam({ name: 'page', type: 'number' })
   @Get('/list/:page')
   async getEventsList(@Param() params: { page: number }) {
