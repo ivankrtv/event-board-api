@@ -3,11 +3,12 @@ import { UsersRepository } from '../../infrastructure/repositories/users.reposit
 import { UserRegistrationDto } from '../../application/DTO/users/user-registration.dto';
 import { UsersBuilders } from './users.builders';
 import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interface';
+import { UserUserRepositoryInterface } from '../repositories-interfaces/user.user-repository.interface';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly usersRepository: UsersRepository,
+    @Inject('UserUserRepositoryInterface') private readonly usersRepository: UserUserRepositoryInterface,
     @Inject('HashWorkerInterface') private readonly hashWorker: HashWorkerInterface,
     private readonly userBuilders: UsersBuilders,
   ) {}

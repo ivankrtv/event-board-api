@@ -8,6 +8,7 @@ import { EventModule } from './domain/events/event.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { loadConfig } from '../configs/configuration';
 import { dbConfig } from '../configs/database.config';
+import { AuthModule } from './domain/auth/auth.module';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ dotenv.config();
   imports: [
     UserModule,
     EventModule,
+    AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
