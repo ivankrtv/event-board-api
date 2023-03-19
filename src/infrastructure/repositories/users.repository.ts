@@ -19,6 +19,4 @@ export class UsersRepository implements AuthUserRepositoryInterface, UserUserRep
   async getByEmail(email: string): Promise<UserEntity | null> {
     return await this.repo.createQueryBuilder('users').where('users.email = :email', { email: email }).getOne();
   }
-
-  async setRefreshToken(userId: number, token: string): Promise<void> {}
 }
