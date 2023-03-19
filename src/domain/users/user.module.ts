@@ -10,6 +10,6 @@ import { UsersBuilders } from './users.builders';
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
-  providers: [UserService, UsersRepository, HashWorker, UsersBuilders],
+  providers: [UserService, UsersRepository, { provide: 'HashWorkerInterface', useClass: HashWorker }, UsersBuilders],
 })
 export class UserModule {}

@@ -2,13 +2,15 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 import { EventStatusEnum } from '../../enums/event-status.enum';
 import { EventsGenderEnum } from '../../enums/events-gender.enum';
 import { ParticipantsEntity } from '../participants/participants.entity';
+import { EventCategory } from '../../enums/event-category';
+import { EventMood } from '../../enums/event-mood';
 
 @Entity('events')
 export class EventEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('character varying')
+  @Column('character varying', { nullable: true })
   image: string;
 
   @Column('character varying')
@@ -25,6 +27,15 @@ export class EventEntity {
 
   @Column('integer', { name: 'people_joined' })
   peopleJoined: number;
+
+  @Column('character varying')
+  category: EventCategory;
+
+  @Column('character varying')
+  mood: EventMood;
+
+  @Column('character varying', { nullable: true })
+  dormitory: string;
 
   @Column('character varying')
   status: EventStatusEnum;

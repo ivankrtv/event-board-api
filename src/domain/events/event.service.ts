@@ -1,14 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { EventsRepository } from '../../infrastructure/repositories/events.repository';
+import { CreateEventDto } from '../../application/DTO/events/create-event.dto';
+import { NewIdResponseDto } from '../../application/DTO/new-id-response.dto';
+import { EventsBuilders } from './events.builders';
+import { PaginatedDto } from '../../application/DTO/paginated.dto';
+import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
+import { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
 
 @Injectable()
 export class EventService {
-  constructor(private readonly eventsRepository: EventsRepository) {}
+  constructor(
+    private readonly eventsRepository: EventsRepository,
+    private readonly eventsBuilders: EventsBuilders,
+    @Inject('QueueManagerInterface') private readonly queueManager: QueueManagerInterface,
+  ) {}
 
-  getEventsList() {
+  async createEvent(body: CreateEventDto): Promise<NewIdResponseDto> {
+    if (new Date(body.startAt) < new Date()) {
+      throw new BadRequestException('Event start time in the past');
+    }
+
+    const newEvent = this.eventsBuilders.buildNewEventEntity(body);
+    const event = await this.eventsRepository.save(newEvent);
+    this.queueManager.sendMessage(event);
+    return { id: event.id };
+  }
+
+  async getEventsList(page: number): Promise<PaginatedDto<EventsCardDto>> {
+    const [events, count] = await this.eventsRepository.getList(page);
     return {
-      events: [],
-      page: 0,
+      data: events,
+      totalCount: count,
     };
   }
 }
