@@ -22,10 +22,18 @@ export type RabbitConf = {
   queueName: string;
 };
 
+export type JWTConf = {
+  accessSecret: string;
+  accessExpiresIn: number;
+  refreshSecret: string;
+  refreshExpiresIn: number;
+};
+
 export type Configuration = {
   db: DatabaseConfig;
   hash: HashConfig;
   rabbit: RabbitConf;
+  JWT: JWTConf;
 };
 
 export const loadConfig = (): Configuration => {
@@ -46,6 +54,12 @@ export const loadConfig = (): Configuration => {
       host: process.env.RABBIT_HOST,
       port: Number(process.env.RABBIT_PORT),
       queueName: process.env.RABBIT_QUEUE_NAME,
+    },
+    JWT: {
+      accessSecret: process.env.JWT_ACCESS_SECRET,
+      accessExpiresIn: Number(process.env.JWT_ACCESS_EXPIRES_IN),
+      refreshSecret: process.env.JWT_REFRESH_SECRET,
+      refreshExpiresIn: Number(process.env.JWT_REFRESH_EXPIRES_IN),
     },
   };
 };
