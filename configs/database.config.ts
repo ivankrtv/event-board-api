@@ -1,7 +1,4 @@
-import {loadConfig} from "./configuration";
-import {UserEntity} from "../src/domain/users/user.entity";
-import {EventEntity} from "../src/domain/events/event.entity";
-import {ParticipantsEntity} from "../src/domain/participants/participants.entity";
+import { loadConfig } from './configuration';
 
 const { db } = loadConfig();
 
@@ -12,6 +9,6 @@ export const dbConfig = {
   username: db.username,
   password: db.password,
   database: db.database,
-  entities: [UserEntity, EventEntity, ParticipantsEntity],
+  entities: ['dist/**/*.entity.js'],
   synchronize: false,
-}
+};
