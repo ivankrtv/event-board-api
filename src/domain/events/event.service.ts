@@ -33,4 +33,9 @@ export class EventService {
       totalCount: count,
     };
   }
+
+  async getEvent(eventId: number) {
+    const event = await this.eventsRepository.getEvent(eventId);
+    return event;
+  }
 }

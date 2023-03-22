@@ -22,4 +22,9 @@ export class EventController {
   async getEventsList(@Param() params: { page: number }) {
     return await this.eventService.getEventsList(params.page);
   }
+
+  @Get('/:eventId')
+  async getEvent(@Param() params: { eventId: number }) {
+    return await this.eventService.getEvent(params.eventId);
+  }
 }

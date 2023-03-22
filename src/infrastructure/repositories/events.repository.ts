@@ -34,4 +34,22 @@ export class EventsRepository {
       .skip(pageNum)
       .getManyAndCount();
   }
+
+  async getEvent(eventId: number): Promise<EventEntity> {
+    const result = await this.repo
+      .createQueryBuilder('events')
+      .select([
+        'events.id',
+        'events.image',
+        'events.title',
+        'events.startAt',
+        'events.eventPlace',
+        'events.peopleNeed',
+        'events.peopleJoined',
+        'events.status',
+      ])
+      .where('events.id = :id', { id: eventId })
+      .getOne();
+    return result;
+  }
 }
