@@ -3,15 +3,17 @@ import { AuthUserRepositoryInterface } from '../repositories-interfaces/auth.use
 import { LoginDto } from '../../application/DTO/auth/login.dto';
 import { TokensResponseDto } from '../../application/DTO/auth/tokens.response.dto';
 import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interface';
+import { JwtService } from '../../infrastructure/managers/jwt.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject('AuthUserRepositoryInterface') private readonly userRepository: AuthUserRepositoryInterface,
     @Inject('HashWorkerInterface') private readonly hashWorker: HashWorkerInterface,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async login(body: LoginDto): Promise<TokensResponseDto> {
+  async login(body: LoginDto, userAgent: string): Promise<TokensResponseDto> {
     const user = await this.userRepository.getByEmail(body.email);
     if (!user) {
       throw new BadRequestException('User with this email doesnt exist');
@@ -22,6 +24,13 @@ export class AuthService {
       throw new BadRequestException('Password incorrect');
     }
 
-    return new TokensResponseDto('qwe', '30m');
+    const accessToken = this.jwtService.signAccess({
+      id: user.id,
+      gender: user.gender,
+    });
+
+    const refreshToken = this.jwtService.signRefresh({ userAgent });
+
+    return new TokensResponseDto(accessToken.token, accessToken.expiresIn);
   }
 }
