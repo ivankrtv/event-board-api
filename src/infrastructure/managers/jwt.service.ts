@@ -32,17 +32,17 @@ export class JwtService {
     };
   }
 
-  verifyAccess(token: string): string | jwt.JwtPayload {
+  verifyAccess(token: string): jwt.JwtPayload {
     try {
-      return jwt.verify(token, this.configs.accessSecret);
+      return jwt.verify(token, this.configs.accessSecret) as jwt.JwtPayload;
     } catch (exception) {
       throw new UnauthorizedException('Token not fresh or incorrect');
     }
   }
 
-  verifyRefresh(token: string): string | jwt.JwtPayload {
+  verifyRefresh(token: string): jwt.JwtPayload {
     try {
-      return jwt.verify(token, this.configs.refreshSecret);
+      return jwt.verify(token, this.configs.refreshSecret) as jwt.JwtPayload;
     } catch (exception) {
       throw new UnauthorizedException('Token not fresh or incorrect');
     }
