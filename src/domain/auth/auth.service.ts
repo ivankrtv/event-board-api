@@ -28,6 +28,7 @@ export class AuthService {
     const accessToken = this.jwtService.signAccess({
       id: user.id,
       gender: user.gender,
+      dormitory: user.dormitory,
     });
 
     const refreshToken = this.jwtService.signRefresh({ id: user.id, userAgent: userAgent });
@@ -52,6 +53,7 @@ export class AuthService {
     const accessToken = this.jwtService.signAccess({
       id: user.id,
       gender: user.gender,
+      dormitory: user.dormitory,
     });
 
     const refreshToken = this.jwtService.signRefresh({ id: user.id, userAgent: userAgent });
