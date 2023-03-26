@@ -9,4 +9,8 @@ export class HashWorker implements HashWorkerInterface {
     const saltRounds = loadConfig().hash.saltRounds;
     return bcrypt.hashSync(value, saltRounds);
   }
+
+  comparePasswords(password: string, hashPassword: string): boolean {
+    return bcrypt.compareSync(password, hashPassword);
+  }
 }
