@@ -1,4 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+
 import { UsersRepository } from '../../infrastructure/repositories/users.repository';
 import { UserRegistrationDto } from '../../application/DTO/users/user-registration.dto';
 import { UsersBuilders } from './users.builders';

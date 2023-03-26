@@ -1,11 +1,13 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+
+import type { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
+
 import { EventsRepository } from '../../infrastructure/repositories/events.repository';
 import { CreateEventDto } from '../../application/DTO/events/create-event.dto';
 import { NewIdResponseDto } from '../../application/DTO/new-id-response.dto';
 import { EventsBuilders } from './events.builders';
 import { PaginatedDto } from '../../application/DTO/paginated.dto';
 import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
-import { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
 
 @Injectable()
 export class EventService {

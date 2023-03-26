@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { CreateEventDto } from '../../application/DTO/events/create-event.dto';
 import { EventEntity } from './event.entity';
 import { EventStatusEnum } from '../../enums/event-status.enum';

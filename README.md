@@ -60,10 +60,16 @@ RABBIT_PORT=
 RABBIT_QUEUE_NAME=
 
 # JWT
+# В качестве секрета можно использовать любую строку
 JWT_ACCESS_SECRET=
+# Время жизни в секундах (для удобства разработки у себя 
+# можно поставить занчение побольше, чтобы каждый раз не обращатсья к /refresh)
 JWT_ACCESS_EXPIRES_IN=
+
+# То же самое только для refresh токена
 JWT_REFRESH_SECRET=
-JWT_REFRESH_EXPIRES_IN=
+# Время жизни в секундах
+JWT_REFRESH_EXPIRES_IN=2592000
 ```
 
 ## Database installation (postgres)

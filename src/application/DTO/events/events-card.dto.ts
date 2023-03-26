@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 import { EventStatusEnum } from '../../../enums/event-status.enum';
 import { EventEntity } from '../../../domain/events/event.entity';
 

@@ -1,11 +1,14 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+
 import { EventService } from '../../domain/events/event.service';
 import { CreateEventDto } from '../DTO/events/create-event.dto';
 import { NewIdResponseDto } from '../DTO/new-id-response.dto';
-import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ApiPaginatedResponse } from '../decorators/api-paginated-response';
 import { EventsCardDto } from '../DTO/events/events-card.dto';
+import { Auth } from '../decorators/auth.decorator';
 
+@Auth()
 @ApiTags('event')
 @Controller('/event')
 export class EventController {

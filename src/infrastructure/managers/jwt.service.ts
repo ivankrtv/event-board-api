@@ -1,7 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JWTConf } from '../../../configs/configuration';
 import * as jwt from 'jsonwebtoken';
+
+import { JWTConf } from '../../../configs/configuration';
 
 export type SignToken = {
   token: string;
