@@ -70,6 +70,12 @@ JWT_ACCESS_EXPIRES_IN=
 JWT_REFRESH_SECRET=
 # Время жизни в секундах
 JWT_REFRESH_EXPIRES_IN=2592000
+
+# IUS
+# (IUS - image-upload-s3, сервис загрузки изображений)
+# параметры JWT для IUS (параметры должны совпадать с соответствующими настройками у сервиса)
+IUS_JWT_SECRET=
+IUS_JWT_EXPIRES_IN=900
 ```
 
 ## Database installation (postgres)
