@@ -1,10 +1,11 @@
 import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Request, Response } from 'express';
+
 import { AuthUserRepositoryInterface } from '../repositories-interfaces/auth.user-repository.interface';
 import { LoginDto } from '../../application/DTO/auth/login.dto';
 import { TokensResponseDto } from '../../application/DTO/auth/tokens.response.dto';
 import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interface';
 import { JwtService } from '../../infrastructure/managers/jwt.service';
-import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService {

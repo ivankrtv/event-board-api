@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import { EventsGenderEnum } from '../../../enums/events-gender.enum';
 import { EventCategory } from '../../../enums/event-category';
 import { EventMood } from '../../../enums/event-mood';

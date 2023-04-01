@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as amqplib from 'amqplib';
 import { ConfigService } from '@nestjs/config';
+
 import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
 import { EventEntity } from '../../domain/events/event.entity';
 import { QueueManagerInterface } from '../../domain/managers-interfaces/queue-manager.interface';
