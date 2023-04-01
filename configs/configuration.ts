@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export type DatabaseConfig = {
+type DatabaseConfig = {
   host: string;
   port: string;
   database: string;
@@ -10,11 +10,11 @@ export type DatabaseConfig = {
   password: string;
 };
 
-export type HashConfig = {
+type HashConfig = {
   saltRounds: number;
 };
 
-export type RabbitConf = {
+type RabbitConf = {
   username: string;
   password: string;
   host: string;
@@ -22,21 +22,27 @@ export type RabbitConf = {
   queueName: string;
 };
 
-export type JWTConf = {
+type JWTConf = {
   accessSecret: string;
   accessExpiresIn: number;
   refreshSecret: string;
   refreshExpiresIn: number;
 };
 
-export type Configuration = {
+type IUSConf = {
+  secret: string;
+  expiresIn: number;
+};
+
+type Configuration = {
   db: DatabaseConfig;
   hash: HashConfig;
   rabbit: RabbitConf;
   JWT: JWTConf;
+  IUS: IUSConf;
 };
 
-export const loadConfig = (): Configuration => {
+const loadConfig = (): Configuration => {
   return {
     db: {
       host: process.env.DB_HOSTNAME,
@@ -61,5 +67,11 @@ export const loadConfig = (): Configuration => {
       refreshSecret: process.env.JWT_REFRESH_SECRET,
       refreshExpiresIn: Number(process.env.JWT_REFRESH_EXPIRES_IN),
     },
+    IUS: {
+      secret: process.env.IUS_JWT_SECRET,
+      expiresIn: Number(process.env.IUS_JWT_EXPIRES_IN),
+    },
   };
 };
+
+export { DatabaseConfig, HashConfig, RabbitConf, JWTConf, IUSConf, Configuration, loadConfig };
