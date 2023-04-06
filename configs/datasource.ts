@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
+
 import { loadConfig } from './configuration';
 
 dotenv.config();
@@ -12,7 +13,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: db.username,
   password: db.password,
   database: db.database,
-  entities: ['dist/**/*.entity.js'],
+  entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 };

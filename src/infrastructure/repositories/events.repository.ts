@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { EventEntity } from '../../domain/events/event.entity';
+import { FileEventRepositoryInterface } from '../../domain/repositories-interfaces/file.event-repository.interface';
 
 @Injectable()
-export class EventsRepository {
+export class EventsRepository implements FileEventRepositoryInterface {
   constructor(
     @InjectRepository(EventEntity)
     protected repo: Repository<EventEntity>,
@@ -34,5 +35,9 @@ export class EventsRepository {
       .take(15)
       .skip(pageNum)
       .getManyAndCount();
+  }
+
+  async getOne(id: number): Promise<EventEntity> {
+    return await this.repo.createQueryBuilder('events').where('events.id = :id', { id: id }).getOne();
   }
 }

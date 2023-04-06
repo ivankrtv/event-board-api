@@ -5,9 +5,12 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../../domain/users/user.entity';
 import { AuthUserRepositoryInterface } from '../../domain/repositories-interfaces/auth.user-repository.interface';
 import { UserUserRepositoryInterface } from '../../domain/repositories-interfaces/user.user-repository.interface';
+import { FileUserRepositoryInterface } from '../../domain/repositories-interfaces/file.user-repository.interface';
 
 @Injectable()
-export class UsersRepository implements AuthUserRepositoryInterface, UserUserRepositoryInterface {
+export class UsersRepository
+  implements AuthUserRepositoryInterface, UserUserRepositoryInterface, FileUserRepositoryInterface
+{
   constructor(
     @InjectRepository(UserEntity)
     private readonly repo: Repository<UserEntity>,

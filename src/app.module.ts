@@ -12,6 +12,7 @@ import { dbConfig } from '../configs/database.config';
 import { AuthModule } from './domain/auth/auth.module';
 import { JwtService } from './infrastructure/managers/jwt.service';
 import { GlobalModule } from './global.module';
+import { FileModule } from './domain/file/file.module';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ dotenv.config();
     EventModule,
     AuthModule,
     GlobalModule,
+    FileModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
