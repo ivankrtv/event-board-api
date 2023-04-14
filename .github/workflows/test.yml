@@ -3,40 +3,39 @@ name: Release documentation
 on: [workflow_dispatch]
 
 jobs:
-  compile_doc:
-    compile_openapi:
-      name: Compile OpenAPI
-      runs-on: ubuntu-latest
+  compile_openapi:
+    name: Compile OpenAPI
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version-file: .nvmrc
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
 
-        - name: Get npm cache directory
-          id: npm-cache
-          run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
 
-        - name: Cache npm dependencies
-          uses: actions/cache@v3.2.3
-          with:
-            path: ${{ steps.npm-cache.outputs.dir }}
-            key: ${{ runner.os }}-npm-production-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-npm-production-
+      - name: Cache npm dependencies
+        uses: actions/cache@v3.2.3
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-npm-production-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-production-
 
-        - name: Install npm dependencies
-          run: npm ci --prefer-offline --production
+      - name: Install npm dependencies
+        run: npm ci --prefer-offline --production
 
-        - name: Update version
-          run: npm version 1.1.1
+      - name: Update version
+        run: npm version 1.1.1
 
-        - name: Compile OpenAPI file
-          run: npm run doc:build
+      - name: Compile OpenAPI file
+        run: npm run doc:build
 
 #        - name: Upload OpenAPI file as artifact
 #          uses: actions/upload-artifact@v3
