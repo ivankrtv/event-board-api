@@ -29,7 +29,12 @@ export class EventsRepository implements FileEventRepositoryInterface {
         'events.peopleNeed',
         'events.peopleJoined',
         'events.status',
+        'participants.id',
+        'participants.role',
+        'users.id',
       ])
+      .leftJoin('events.users', 'participants')
+      .leftJoin('participants.user', 'users')
       .where('events.startAt >= :now', { now: new Date() })
       .andWhere(`events.status = 'active'`)
       .take(15)
