@@ -24,7 +24,8 @@
     "migration:generate": "npm run typeorm:cli -- migration:generate src/migrations/$name",
     "migration:create": "typeorm migration:create src/migrations/$name",
     "migration:run": "npm run typeorm:cli -- migration:run",
-    "migration:revert": "npm run typeorm:cli -- migration:revert"
+    "migration:revert": "npm run typeorm:cli -- migration:revert",
+    "clear-database": "ts-node scripts/clear-database.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -41,6 +42,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "ts-node": "^10.0.0",
     "typeorm": "^0.3.7"
   },
   "devDependencies": {
@@ -66,7 +68,6 @@
     "supertest": "^6.1.3",
     "ts-jest": "28.0.5",
     "ts-loader": "^9.2.3",
-    "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
     "typescript": "^4.3.5"
   },
