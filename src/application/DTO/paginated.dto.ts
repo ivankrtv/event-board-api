@@ -5,4 +5,9 @@ export class PaginatedDto<DTO> {
 
   @ApiProperty()
   totalCount: number;
+
+  constructor(models: DTO[], count: number) {
+    this.data = models;
+    this.totalCount = count;
+  }
 }

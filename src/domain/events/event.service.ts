@@ -17,7 +17,7 @@ export class EventService {
     @Inject('QueueManagerInterface') private readonly queueManager: QueueManagerInterface,
   ) {}
 
-  async createEvent(body: CreateEventDto): Promise<NewIdResponseDto> {
+  async createEvent(body: CreateEventDto, userId: number): Promise<NewIdResponseDto> {
     if (new Date(body.startAt) < new Date()) {
       throw new BadRequestException('Event start time in the past');
     }
@@ -28,11 +28,13 @@ export class EventService {
     return { id: event.id };
   }
 
-  async getEventsList(page: number): Promise<PaginatedDto<EventsCardDto>> {
+  async getEventsList(page: number, userId: number): Promise<PaginatedDto<EventsCardDto>> {
     const [events, count] = await this.eventsRepository.getList(page);
-    return {
-      data: events,
-      totalCount: count,
-    };
+
+    const eventsCards = events.map((event) => {
+      return EventsCardDto.createByEventEntityAndUserId(event, userId);
+    });
+
+    return new PaginatedDto<EventsCardDto>(eventsCards, count);
   }
 }
