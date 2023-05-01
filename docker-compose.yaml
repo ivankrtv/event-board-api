@@ -1,0 +1,43 @@
+version: '3.8'
+
+networks:
+  eb_nw:
+    driver: bridge
+
+services:
+  eventboard_db:
+    image: postgres:15.2-alpine
+    container_name: eventboard_db
+    restart: always
+    ports:
+      - "6432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./src/infrastructure/database/init-database.sql:/docker-entrypoint-initdb.d/init_database.sql
+    networks:
+      - eb_nw
+
+  eventboard_api:
+    container_name: eventboard_api
+    #    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eventboard_db
+    env_file:
+      - .env
+    environment:
+      DB_HOSTNAME: host.docker.internal
+      DB_PORT: 6432
+    networks:
+      - eb_nw
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+#volumes:
+#  postgres_data:

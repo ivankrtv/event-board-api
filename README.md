@@ -23,6 +23,17 @@ $ git clone git@github.com:ivankrtv/event-board-api.git
 $ git clone https://github.com/ivankrtv/event-board-api.git
 ```
 
+### Запуск через docker-compose
+Чтобы запустить приложение, после клонирования этого репозитория, вам нужно убедиться, что вы указали все env 
+переменные в [.env файле](https://github.com/ivankrtv/event-board-api#environments) в корне проекта.
+
+После этого достаточно запустить docker-compose и он поднимет вам приложение.
+
+Запускать можно либо через свою IDE, либо командой, **находясь в корне проекта**
+```bash
+$ docker compose up
+```
+
 ### Загрузка пакетов:
 ```bash
 $ cd event-board-api
