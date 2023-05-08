@@ -23,13 +23,18 @@ export class QueueManager implements QueueManagerInterface {
   private readonly queueName: string;
 
   async sendMessage(event: EventEntity): Promise<void> {
-    const conn = await amqplib.connect(`amqp://${this.username}:${this.password}@${this.hostname}:${this.port}`);
-    const eventData = new EventsCardDto(event);
+    try {
+      const conn = await amqplib.connect(`amqp://${this.username}:${this.password}@${this.hostname}:${this.port}`);
+      const eventData = new EventsCardDto(event);
 
-    const channel = await conn.createChannel();
-    await channel.assertQueue(this.queueName, { durable: false });
-    await channel.sendToQueue(this.queueName, Buffer.from(JSON.stringify(eventData)));
+      const channel = await conn.createChannel();
+      await channel.assertQueue(this.queueName, { durable: false });
+      await channel.sendToQueue(this.queueName, Buffer.from(JSON.stringify(eventData)));
 
-    conn.close();
+      conn.close();
+    } catch (e) {
+      console.log(e);
+      return;
+    }
   }
 }
