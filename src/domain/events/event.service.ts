@@ -8,12 +8,18 @@ import { NewIdResponseDto } from '../../application/DTO/new-id-response.dto';
 import { EventsBuilders } from './events.builders';
 import { PaginatedDto } from '../../application/DTO/paginated.dto';
 import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
+import { UsersRepository } from '../../infrastructure/repositories/users.repository';
+import { ParticipantsBuilders } from '../participants/participants.builders';
+import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
 
 @Injectable()
 export class EventService {
   constructor(
     private readonly eventsRepository: EventsRepository,
     private readonly eventsBuilders: EventsBuilders,
+    private readonly participantBuilders: ParticipantsBuilders,
+    private readonly eventTransactions: EventsTransactions,
+    private readonly userRepository: UsersRepository,
     @Inject('QueueManagerInterface') private readonly queueManager: QueueManagerInterface,
   ) {}
 
@@ -22,9 +28,15 @@ export class EventService {
       throw new BadRequestException('Event start time in the past');
     }
 
+    const user = await this.userRepository.getOne(userId);
+
     const newEvent = this.eventsBuilders.buildNewEventEntity(body);
-    const event = await this.eventsRepository.save(newEvent);
+    const organizer = this.participantBuilders.buildOrganizer(user);
+
+    const event = await this.eventTransactions.create(newEvent, organizer);
+
     this.queueManager.sendMessage(event);
+
     return { id: event.id };
   }
 
