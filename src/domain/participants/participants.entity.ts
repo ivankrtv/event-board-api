@@ -12,7 +12,7 @@ export class ParticipantsEntity {
   @Column('character varying')
   role: ParticipantRoleEnum;
 
-  @ManyToOne(() => EventEntity, (event) => event.users)
+  @ManyToOne(() => EventEntity, (event) => event.participants)
   @JoinColumn()
   event: EventEntity;
 
