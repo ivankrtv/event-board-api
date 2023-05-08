@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import type { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
 
@@ -11,6 +11,7 @@ import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
 import { UsersRepository } from '../../infrastructure/repositories/users.repository';
 import { ParticipantsBuilders } from '../participants/participants.builders';
 import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
+import { UserIsAlreadyParticipantException } from '../../application/Exceptions/UserIsAlreadyParticipantException';
 
 @Injectable()
 export class EventService {
@@ -35,7 +36,7 @@ export class EventService {
 
     const event = await this.eventTransactions.create(newEvent, organizer);
 
-    this.queueManager.sendMessage(event);
+    await this.queueManager.sendMessage(event);
 
     return { id: event.id };
   }
@@ -48,5 +49,25 @@ export class EventService {
     });
 
     return new PaginatedDto<EventsCardDto>(eventsCards, count);
+  }
+
+  async joinToEvent(eventId: number, userId: number): Promise<void> {
+    const event = await this.eventsRepository.getOne(eventId);
+    if (!event) {
+      throw new NotFoundException(`Event with id: ${eventId} not found`);
+    }
+
+    const user = await this.userRepository.getOne(userId);
+    if (!user) {
+      throw new NotFoundException(`User with id: ${userId} not found`);
+    }
+
+    const existParticipant = event.participants.find((participant) => participant.user.id === userId);
+    if (existParticipant) {
+      throw new UserIsAlreadyParticipantException();
+    }
+
+    const participant = this.participantBuilders.buildParticipant(user);
+    await this.eventTransactions.joinToEvent(event, participant);
   }
 }

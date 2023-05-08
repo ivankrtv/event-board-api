@@ -6,9 +6,21 @@ import { ParticipantRoleEnum } from '../../enums/participant-role.enum';
 
 @Injectable()
 export class ParticipantsBuilders {
-  buildOrganizer(user: UserEntity): ParticipantsEntity {
+  buildOrganizer(user: UserEntity): ParticipantsEntity[] {
+    const organizer = new ParticipantsEntity();
+    organizer.role = ParticipantRoleEnum.organizer;
+    organizer.user = user;
+
     const participant = new ParticipantsEntity();
-    participant.role = ParticipantRoleEnum.organizer;
+    participant.role = ParticipantRoleEnum.joiner;
+    participant.user = user;
+
+    return [organizer, participant];
+  }
+
+  buildParticipant(user: UserEntity): ParticipantsEntity {
+    const participant = new ParticipantsEntity();
+    participant.role = ParticipantRoleEnum.joiner;
     participant.user = user;
 
     return participant;
