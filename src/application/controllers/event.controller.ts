@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
-import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, NotFoundException, Param, Post, Req } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { EventService } from '../../domain/events/event.service';
 import { CreateEventDto } from '../DTO/events/create-event.dto';
@@ -8,6 +8,9 @@ import { ApiPaginatedResponse } from '../decorators/api-paginated-response';
 import { EventsCardDto } from '../DTO/events/events-card.dto';
 import { Auth } from '../decorators/auth.decorator';
 import { PaginatedDto } from '../DTO/paginated.dto';
+import { JoinToEventDto } from '../DTO/events/join-to-event.dto';
+import { NotFoundExceptionDto } from '../DTO/exceptions/NotFoundExceptionDto';
+import { UserIsAlreadyParticipantDto } from '../DTO/exceptions/UserIsAlreadyParticipantDto';
 
 @Auth()
 @ApiTags('event')
@@ -26,5 +29,13 @@ export class EventController {
   @Get('/list/:page')
   async getEventsList(@Param() params: { page: number }, @Req() req): Promise<PaginatedDto<EventsCardDto>> {
     return await this.eventService.getEventsList(params.page, req.user.id);
+  }
+
+  @ApiOkResponse({ description: 'Joined success' })
+  @ApiNotFoundResponse({ description: 'Not found event or user entity', type: NotFoundExceptionDto })
+  @ApiBadRequestResponse({ description: 'User is already participant', type: UserIsAlreadyParticipantDto })
+  @Post('/join/:eventId')
+  async joinToEvent(@Param() params: JoinToEventDto, @Req() req): Promise<void> {
+    return await this.eventService.joinToEvent(params.eventId, req.user.id);
   }
 }

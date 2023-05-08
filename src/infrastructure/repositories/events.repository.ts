@@ -43,6 +43,11 @@ export class EventsRepository implements FileEventRepositoryInterface {
   }
 
   async getOne(id: number): Promise<EventEntity> {
-    return await this.repo.createQueryBuilder('events').where('events.id = :id', { id: id }).getOne();
+    return await this.repo
+      .createQueryBuilder('events')
+      .leftJoinAndSelect('events.participants', 'participants')
+      .leftJoinAndSelect('participants.user', 'users')
+      .where('events.id = :id', { id: id })
+      .getOne();
   }
 }
