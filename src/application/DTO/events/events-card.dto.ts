@@ -37,8 +37,12 @@ export class EventsCardDto {
 
   public static createByEventEntityAndUserId(event: EventEntity, userId: number): EventsCardDto {
     const eventCard = new EventsCardDto(event);
-    const participant = event.users.find((participantUser) => participantUser.role === ParticipantRoleEnum.joiner);
-    const organizer = event.users.find((participantUser) => participantUser.role === ParticipantRoleEnum.organizer);
+    const participant = event.participants.find(
+      (participantUser) => participantUser.role === ParticipantRoleEnum.joiner,
+    );
+    const organizer = event.participants.find(
+      (participantUser) => participantUser.role === ParticipantRoleEnum.organizer,
+    );
 
     if (participant?.user.id === userId) {
       eventCard.isParticipant = true;

@@ -8,7 +8,10 @@ import { EventEntity } from './event.entity';
 import { EventsBuilders } from './events.builders';
 import { QueueManager } from '../../infrastructure/managers/queue.manager';
 import { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
+import { UsersRepository } from '../../infrastructure/repositories/users.repository';
 import { UserEntity } from '../users/user.entity';
+import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
+import { ParticipantsBuilders } from '../participants/participants.builders';
 
 @Module({
   imports: [TypeOrmModule.forFeature([EventEntity, UserEntity])],
@@ -17,6 +20,9 @@ import { UserEntity } from '../users/user.entity';
     EventService,
     EventsRepository,
     EventsBuilders,
+    UsersRepository,
+    ParticipantsBuilders,
+    EventsTransactions,
     { provide: 'QueueManagerInterface', useClass: QueueManager },
   ],
 })

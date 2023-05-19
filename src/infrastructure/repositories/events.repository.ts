@@ -33,7 +33,7 @@ export class EventsRepository implements FileEventRepositoryInterface {
         'participants.role',
         'users.id',
       ])
-      .leftJoin('events.users', 'participants')
+      .leftJoin('events.participants', 'participants')
       .leftJoin('participants.user', 'users')
       .where('events.startAt >= :now', { now: new Date() })
       .andWhere(`events.status = 'active'`)
@@ -43,6 +43,11 @@ export class EventsRepository implements FileEventRepositoryInterface {
   }
 
   async getOne(id: number): Promise<EventEntity> {
-    return await this.repo.createQueryBuilder('events').where('events.id = :id', { id: id }).getOne();
+    return await this.repo
+      .createQueryBuilder('events')
+      .leftJoinAndSelect('events.participants', 'participants')
+      .leftJoinAndSelect('participants.user', 'users')
+      .where('events.id = :id', { id: id })
+      .getOne();
   }
 }
