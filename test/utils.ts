@@ -4,6 +4,9 @@ import { TestingModule } from '@nestjs/testing';
 import jestOpenAPI from 'jest-openapi';
 import * as request from 'supertest';
 
+import { UserEntity } from '../src/domain/users/user.entity';
+import { GenderEnum } from '../src/enums/gender.enum';
+
 async function setupTestingModule(moduleFixture: TestingModule): Promise<INestApplication> {
   const app = moduleFixture.createNestApplication();
 
@@ -37,4 +40,17 @@ async function getAuthToken(app: INestApplication, email: 'krotov.ia@mail.ru'): 
     .then((res) => res.body?.token);
 }
 
-export { setupTestingModule, getAuthToken };
+function setupUser(): UserEntity {
+  const userData = new UserEntity();
+  userData.name = 'username';
+  userData.email = 'username@test.ru';
+  userData.password = '$2b$10$bLwg92KWdmcpNYD22iUqoerkfg/lU6e9RSOjpiWWdpyae6587CQPC';
+  userData.image = null;
+  userData.dormitory = '19';
+  userData.gender = GenderEnum.male;
+  userData.group = '3531201/80201';
+  userData.events = [];
+  return userData;
+}
+
+export { setupTestingModule, getAuthToken, setupUser };

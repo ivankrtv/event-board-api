@@ -13,7 +13,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: db.username,
   password: db.password,
   database: db.database,
-  entities: ['src/**/*.entity.ts'],
+  entities: ['src/**/*.entity{.ts,.js}'],
   migrations: ['src/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 };
