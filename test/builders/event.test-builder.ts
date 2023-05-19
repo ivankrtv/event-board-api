@@ -18,7 +18,7 @@ export class EventTestBuilder {
     this.eventData.mood = EventMood.active;
     this.eventData.eventPlace = 'Галерея';
     this.eventData.gender = EventsGenderEnum.all;
-    this.eventData.users = [];
+    this.eventData.participants = [];
     this.eventData.category = EventCategory.culturalLeisure;
     this.eventData.startAt = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10);
     this.eventData.peopleJoined = 1;
@@ -54,7 +54,7 @@ export class EventTestBuilder {
     }
     const newEventOrganizer = await dataSource.manager.save<ParticipantsEntity>(eventOrganizer);
 
-    this.eventData.users = [newEventOrganizer];
+    this.eventData.participants = [newEventOrganizer];
     this.eventData = await dataSource.manager.save<EventEntity>(this.eventData);
     // this.eventData = await dataSource.manager.save<EventEntity>(this.eventData);
     // eventOrganizer.event = this.eventData;
