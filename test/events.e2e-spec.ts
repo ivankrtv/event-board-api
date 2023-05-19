@@ -6,7 +6,6 @@ import { AppModule } from '../src/app.module';
 import { UserTestBuilder } from './builders/user.test-builder';
 import { setupTestingModule } from './utils';
 import { EventTestBuilder } from './builders/event.test-builder';
-import dataSource from '../configs/datasource';
 import { truncateDatabase } from '../src/infrastructure/database/truncate-database';
 
 describe('Events (e2e)', () => {
