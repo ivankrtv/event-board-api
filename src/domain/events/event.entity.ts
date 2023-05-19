@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { EventStatusEnum } from '../../enums/event-status.enum';
 import { EventsGenderEnum } from '../../enums/events-gender.enum';

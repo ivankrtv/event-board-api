@@ -8,9 +8,10 @@ import { EventEntity } from './event.entity';
 import { EventsBuilders } from './events.builders';
 import { QueueManager } from '../../infrastructure/managers/queue.manager';
 import { QueueManagerInterface } from '../managers-interfaces/queue-manager.interface';
+import { UserEntity } from '../users/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EventEntity])],
+  imports: [TypeOrmModule.forFeature([EventEntity, UserEntity])],
   controllers: [EventController],
   providers: [
     EventService,
