@@ -9,6 +9,6 @@ export const dbConfig = {
   username: db.username,
   password: db.password,
   database: db.database,
-  entities: ['dist/**/*.entity.js'],
+  entities: process.env.NODE_ENV === 'test' ? ['src/**/*.entity.ts'] : ['src/**/*.entity.js'],
   synchronize: false,
 };

@@ -15,7 +15,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(body: LoginDto, userAgent: string, response: Response): Promise<TokensResponseDto> {
+  async login(
+    body: LoginDto,
+    userAgent: string,
+    response: Response,
+  ): Promise<TokensResponseDto | { exception: string }> {
     const user = await this.userRepository.getByEmail(body.email);
     if (!user) {
       throw new BadRequestException('User with this email doesnt exist');

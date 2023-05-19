@@ -8,7 +8,7 @@ export class EventsCardDto {
   @ApiProperty()
   id: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ nullable: true })
   image: string;
 
   @ApiProperty()
