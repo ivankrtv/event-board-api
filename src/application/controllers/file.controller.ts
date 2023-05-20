@@ -1,7 +1,7 @@
 import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
-import { Auth } from '../decorators/auth.decorator';
+import { Auth } from '../../infrastructure/decorators/auth.decorator';
 import { ImageTypesEnum } from '../../enums/image-types.enum';
 import { FileUploadImageDto } from '../DTO/file/file-upload-image.dto';
 import { FileService } from '../../domain/file/file.service';

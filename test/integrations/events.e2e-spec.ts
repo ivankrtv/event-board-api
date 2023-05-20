@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 
-import { AppModule } from '../src/app.module';
-import { UserTestBuilder } from './builders/user.test-builder';
-import { setupTestingModule } from './utils';
-import { EventTestBuilder } from './builders/event.test-builder';
-import { truncateDatabase } from '../src/infrastructure/database/truncate-database';
+import { AppModule } from '../../src/app.module';
+import { UserTestBuilder } from '../builders/user.test-builder';
+import { setupTestingModule } from '../utils';
+import { EventTestBuilder } from '../builders/event.test-builder';
+import { truncateDatabase } from '../../src/infrastructure/database/truncate-database';
 
 describe('Events (e2e)', () => {
   let app: INestApplication;
@@ -39,7 +39,7 @@ describe('Events (e2e)', () => {
       const eventBuilder = new EventTestBuilder();
       const event = await eventBuilder.build();
 
-      expect(event.eventData.id).toBeDefined();
+      expect(event.id).toBeDefined();
     });
   });
 });
