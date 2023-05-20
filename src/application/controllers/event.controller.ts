@@ -1,10 +1,17 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Req } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { EventService } from '../../domain/events/event.service';
 import { CreateEventDto } from '../DTO/events/create-event.dto';
 import { NewIdResponseDto } from '../DTO/new-id-response.dto';
-import { ApiPaginatedResponse } from '../../infrastructure/decorators/api-paginated-response';
+import { ApiPaginatedResponse } from '../../infrastructure/decorators/api/api-paginated-response';
 import { EventsCardDto } from '../DTO/events/events-card.dto';
 import { Auth } from '../../infrastructure/decorators/auth.decorator';
 import { PaginatedDto } from '../DTO/paginated.dto';
@@ -18,7 +25,7 @@ import { UserIsAlreadyParticipantDto } from '../DTO/exceptions/UserIsAlreadyPart
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @ApiOkResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
+  @ApiCreatedResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
   @Post('/create')
   async createEvent(@Body() body: CreateEventDto, @Req() req): Promise<NewIdResponseDto> {
     return await this.eventService.createEvent(body, req.user.id);

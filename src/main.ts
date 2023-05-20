@@ -1,8 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { RedocModule } from '@juicyllama/nestjs-redoc';
+import { ValidationPipe } from '@nestjs/common';
+import { ValidationError } from 'class-validator';
 
 import { AppModule } from './app.module';
+import { redocOptions } from '../configs/redoc/redoc-options';
+import { ValidationException } from './infrastructure/Exceptions/ValidationException';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +16,15 @@ async function bootstrap() {
     credentials: true,
     origin: '*',
   });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      skipUndefinedProperties: true,
+      exceptionFactory: (errors) => {
+        throw new ValidationException(errors);
+      },
+    }),
+  );
 
   const docsConfig = new DocumentBuilder()
     .setTitle('Event Board API')
@@ -19,7 +33,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, docsConfig);
-  SwaggerModule.setup('api', app, document);
+  await RedocModule.setup('/api', app, document, redocOptions);
 
   await app.listen(8080);
   console.log('server start on 8080');

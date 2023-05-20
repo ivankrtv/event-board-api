@@ -42,4 +42,29 @@ describe('Events (e2e)', () => {
       expect(event.id).toBeDefined();
     });
   });
+
+  describe('Create event', () => {
+    it('success', async () => {
+      const userBuilder = new UserTestBuilder();
+      const user = await userBuilder.build();
+
+      const newEventData = {
+        title: 'Мафия на 12 человек',
+        description: 'Мафия на 12 человек',
+        eventPlace: 'Парк Горького',
+        peopleNeed: 10,
+        category: 'polytechOffical',
+        mood: 'calm',
+        startAt: '2023-11-20T18:00:00',
+        gender: 'all',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/event/create')
+        .auth(user.authToken, { type: 'bearer' })
+        .send(newEventData);
+
+      expect(response).toSatisfyApiSpec();
+    });
+  });
 });
