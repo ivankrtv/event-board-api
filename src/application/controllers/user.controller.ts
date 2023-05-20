@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { UserRegistrationDto } from '../DTO/users/user-registration.dto';
 import { UserService } from '../../domain/users/user.service';
-import { Auth } from '../decorators/auth.decorator';
+import { Auth } from '../../infrastructure/decorators/auth.decorator';
 import { UpdateImageDto } from '../DTO/users/update-image.dto';
 
 @Auth()

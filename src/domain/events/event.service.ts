@@ -11,7 +11,7 @@ import { EventsCardDto } from '../../application/DTO/events/events-card.dto';
 import { UsersRepository } from '../../infrastructure/repositories/users.repository';
 import { ParticipantsBuilders } from '../participants/participants.builders';
 import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
-import { UserIsAlreadyParticipantException } from '../../application/Exceptions/UserIsAlreadyParticipantException';
+import { UserIsAlreadyParticipantException } from '../../infrastructure/Exceptions/UserIsAlreadyParticipantException';
 
 @Injectable()
 export class EventService {

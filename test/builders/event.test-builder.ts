@@ -1,12 +1,9 @@
-import { EntityManager } from 'typeorm';
-
 import { EventEntity } from '../../src/domain/events/event.entity';
 import { EventMood } from '../../src/enums/event-mood';
 import { EventsGenderEnum } from '../../src/enums/events-gender.enum';
 import { EventCategory } from '../../src/enums/event-category';
 import { EventStatusEnum } from '../../src/enums/event-status.enum';
 import { ParticipantsEntity } from '../../src/domain/participants/participants.entity';
-import { UserTestBuilder } from './user.test-builder';
 import { ParticipantRoleEnum } from '../../src/enums/participant-role.enum';
 import dataSource from '../../configs/datasource';
 import { UserEntity } from '../../src/domain/users/user.entity';
@@ -32,15 +29,8 @@ export class EventTestBuilder {
 
   public eventData: EventEntity = new EventEntity();
 
-  public async build(participant: ParticipantsEntity = null): Promise<EventTestBuilder> {
+  public async build(participant: ParticipantsEntity = null): Promise<EventEntity> {
     let eventOrganizer = participant;
-    // if (participant === null) {
-    //   const userData = new UserTestBuilder().userData;
-    //
-    //   eventOrganizer = new ParticipantsEntity();
-    //   eventOrganizer.role = ParticipantRoleEnum.organizer;
-    //   eventOrganizer.user = user.userData;
-    // }
 
     await dataSource.initialize();
     if (participant === null) {
@@ -56,12 +46,9 @@ export class EventTestBuilder {
 
     this.eventData.participants = [newEventOrganizer];
     this.eventData = await dataSource.manager.save<EventEntity>(this.eventData);
-    // this.eventData = await dataSource.manager.save<EventEntity>(this.eventData);
-    // eventOrganizer.event = this.eventData;
-    // await dataSource.manager.save<ParticipantsEntity>(eventOrganizer);
 
     await dataSource.destroy();
 
-    return this;
+    return this.eventData;
   }
 }
