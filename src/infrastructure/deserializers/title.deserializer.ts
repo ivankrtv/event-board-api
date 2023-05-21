@@ -1,6 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
-import { IsString, MaxLength } from 'class-validator';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
-export function TitleDeserialize() {
-  return applyDecorators(IsString(), MaxLength(50));
+export function TitleDeserialize(property?: { nonEmpty: boolean }) {
+  const isNonEmpty = property?.nonEmpty ?? true;
+  const decoratorsArray = [IsString(), MaxLength(30)];
+  if (isNonEmpty) {
+    decoratorsArray.push(MinLength(1, { message: 'expected no empty string' }));
+  }
+  return applyDecorators(...decoratorsArray);
 }
