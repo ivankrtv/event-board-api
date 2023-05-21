@@ -28,6 +28,7 @@ export class EventController {
   @ApiCreatedResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
   @Post('/create')
   async createEvent(@Body() body: CreateEventDto, @Req() req): Promise<NewIdResponseDto> {
+    console.log(body);
     return await this.eventService.createEvent(body, req.user.id);
   }
 
