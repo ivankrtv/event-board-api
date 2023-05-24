@@ -4,6 +4,7 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
@@ -25,6 +26,7 @@ import { UserIsAlreadyParticipantDto } from '../DTO/exceptions/UserIsAlreadyPart
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
+  @ApiOperation({ summary: 'Create event' })
   @ApiCreatedResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
   @Post('/create')
   async createEvent(@Body() body: CreateEventDto, @Req() req): Promise<NewIdResponseDto> {

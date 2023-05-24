@@ -12,7 +12,6 @@ export function ApiDescriptionProperty(nonEmpty = true) {
       minItems: nonEmpty ? 1 : 0,
       format: 'text',
       description: 'Описание',
-      pattern: '^[A-Za-zА-Я-а-яЁё0-9 .,]{1,500}$',
     }),
   );
 }
