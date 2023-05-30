@@ -10,6 +10,7 @@ export function ApiTitleProperty(nonEmpty = true) {
       minItems: nonEmpty ? 1 : 0,
       format: 'string',
       description: 'Заголовок',
+      pattern: `^[A-Za-zА-Я-а-яЁё0-9 .,]{${nonEmpty ? 1 : 0},30}$`,
     }),
   );
 }
