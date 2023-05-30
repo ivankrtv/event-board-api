@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsNumber, IsPositive, IsString, Length, Max, MaxLength, Min } from 'class-validator';
 
 import { EventsGenderEnum } from '../../../enums/events-gender.enum';
 import { EventCategory } from '../../../enums/event-category';

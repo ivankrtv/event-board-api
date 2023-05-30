@@ -1,28 +1,21 @@
-import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
+
+import { ValidationFieldError } from '../../application/DTO/errors/validation-field-error';
+import { ApiValidationErrorDto } from '../../application/DTO/errors/api-validation-error.dto';
 
 export class ValidationException extends HttpException {
   constructor(errors: ValidationError[]) {
-    const errorObjects = errors.map((error) => {
+    const errorObjects: ValidationFieldError[] = errors.map((error) => {
       let errorsString = '';
       for (const key in error.constraints) {
         errorsString = errorsString + `${error.constraints[key]}, `;
       }
       errorsString = errorsString.slice(0, -2);
 
-      return {
-        field: error.property,
-        errors: errorsString,
-      };
+      return new ValidationFieldError(error.property, errorsString);
     });
 
-    super(
-      {
-        statusCode: HttpStatus.BAD_REQUEST,
-        message: errorObjects,
-        error: 'Validation error',
-      },
-      HttpStatus.BAD_REQUEST,
-    );
+    super(new ApiValidationErrorDto(errorObjects), HttpStatus.BAD_REQUEST);
   }
 }

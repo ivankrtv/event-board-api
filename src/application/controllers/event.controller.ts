@@ -18,6 +18,8 @@ import { PaginatedDto } from '../DTO/paginated.dto';
 import { JoinToEventDto } from '../DTO/events/join-to-event.dto';
 import { NotFoundExceptionDto } from '../DTO/exceptions/NotFoundExceptionDto';
 import { UserIsAlreadyParticipantDto } from '../DTO/exceptions/UserIsAlreadyParticipantDto';
+import { ApiBadRequest } from '../../infrastructure/decorators/api/api-bad-request.decorator';
+import { ApiValidationErrorDto } from '../DTO/errors/api-validation-error.dto';
 
 @Auth()
 @ApiTags('event')
@@ -41,7 +43,8 @@ export class EventController {
 
   @ApiOkResponse({ description: 'Joined success' })
   @ApiNotFoundResponse({ description: 'Not found event or user entity', type: NotFoundExceptionDto })
-  @ApiBadRequestResponse({ description: 'User is already participant', type: UserIsAlreadyParticipantDto })
+  @ApiBadRequestResponse({ description: 'User is already participant', type: ApiValidationErrorDto })
+  // @ApiBadRequest(UserIsAlreadyParticipantDto)
   @Post('/join/:eventId')
   async joinToEvent(@Param() params: JoinToEventDto, @Req() req): Promise<void> {
     return await this.eventService.joinToEvent(params.eventId, req.user.id);

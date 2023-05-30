@@ -8,7 +8,7 @@ function DescriptionValidate(validationOptions?: ValidationOptions) {
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: ['description'],
+      constraints: [propertyName],
       validator: {
         validate(value: string, validationArguments?: ValidationArguments): boolean {
           const descriptionRegExp = new RegExp('^[A-Za-zА-Я-а-яЁё0-9 .,]{1,500}$');
