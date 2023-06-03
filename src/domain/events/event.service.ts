@@ -28,7 +28,7 @@ export class EventService {
   /**
    * @throws StartAtInThePastException
    */
-  async createEvent(body: CreateEventDto, userId: number): Promise<NewIdResponseDto> {
+  async createEvent(body: CreateEventDto, userId: string): Promise<NewIdResponseDto> {
     if (new Date(body.startAt) < new Date()) {
       throw new StartAtInThePastException();
     }
@@ -45,7 +45,7 @@ export class EventService {
     return { id: event.id };
   }
 
-  async getEventsList(page: number, userId: number): Promise<PaginatedDto<EventsCardDto>> {
+  async getEventsList(page: number, userId: string): Promise<PaginatedDto<EventsCardDto>> {
     const [events, count] = await this.eventsRepository.getList(page);
 
     const eventsCards = events.map((event) => {
@@ -55,7 +55,7 @@ export class EventService {
     return new PaginatedDto<EventsCardDto>(eventsCards, count);
   }
 
-  async joinToEvent(eventId: number, userId: number): Promise<void> {
+  async joinToEvent(eventId: string, userId: string): Promise<void> {
     const event = await this.eventsRepository.getOne(eventId);
     if (!event) {
       throw new NotFoundException(`Event with id: ${eventId} not found`);

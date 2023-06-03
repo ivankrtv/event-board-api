@@ -24,7 +24,7 @@ export class UsersRepository
     return await this.repo.createQueryBuilder('users').where('users.email = :email', { email: email }).getOne();
   }
 
-  async getOne(id: number): Promise<UserEntity> {
+  async getOne(id: string): Promise<UserEntity> {
     return await this.repo.createQueryBuilder('users').where('users.id = :id', { id: id }).getOne();
   }
 }

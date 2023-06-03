@@ -1,9 +1,6 @@
-import * as jwt from 'jsonwebtoken';
-
 import { UserEntity } from '../../src/domain/users/user.entity';
 import { GenderEnum } from '../../src/enums/gender.enum';
 import dataSource from '../../configs/datasource';
-import { Configuration, loadConfig } from '../../configs/configuration';
 
 export class UserTestBuilder {
   constructor() {
@@ -15,29 +12,15 @@ export class UserTestBuilder {
     this.userData.gender = GenderEnum.male;
     this.userData.group = '3531201/80201';
     this.userData.events = [];
-
-    this.configs = loadConfig();
   }
 
   public userData: UserEntity = new UserEntity();
-  public authToken = '';
-  private configs: Configuration;
 
-  public async build(): Promise<UserTestBuilder> {
+  public async build(): Promise<UserEntity> {
     await dataSource.initialize();
     this.userData = await dataSource.manager.save<UserEntity>(this.userData);
     await dataSource.destroy();
 
-    this.authToken = jwt.sign(
-      {
-        id: this.userData.id,
-        gender: this.userData.gender,
-        dormitory: this.userData.dormitory,
-      },
-      this.configs.JWT.accessSecret,
-      { expiresIn: this.configs.JWT.accessExpiresIn },
-    );
-
-    return this;
+    return this.userData;
   }
 }

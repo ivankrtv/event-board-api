@@ -7,5 +7,5 @@ export class FileUploadImageDto {
   type: ImageTypesEnum;
 
   @ApiProperty({ description: 'id той сущности, которой пытаемся загрузить картинку' })
-  entityId: number;
+  entityId: string;
 }

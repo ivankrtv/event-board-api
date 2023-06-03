@@ -29,7 +29,7 @@ async function setupTestingModule(moduleFixture: TestingModule): Promise<INestAp
   return app;
 }
 
-async function getAuthToken(app: INestApplication, email: 'krotov.ia@mail.ru'): Promise<string> {
+async function getAuthToken(app: INestApplication, email: string): Promise<string> {
   return request(app.getHttpServer())
     .post('/auth/login')
     .send({

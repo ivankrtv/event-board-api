@@ -9,7 +9,7 @@ import { EventMood } from '../../enums/event-mood';
 @Entity('events')
 export class EventEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column('character varying', { nullable: true })
   image: string;
