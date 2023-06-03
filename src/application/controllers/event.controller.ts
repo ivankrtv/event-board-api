@@ -1,13 +1,5 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiCreatedResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiParam,
-  ApiTags,
-} from '@nestjs/swagger';
+import { Body, Controller, Param, Req } from '@nestjs/common';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { EventService } from '../../domain/events/event.service';
 import { CreateEventDto } from '../DTO/events/create-event.dto';
@@ -20,10 +12,8 @@ import { JoinToEventDto } from '../DTO/events/join-to-event.dto';
 import { ApiNotFoundErrorDto } from '../DTO/errors/api-not-found-error.dto';
 import { ApiUserIsAlreadyParticipantErrorDto } from '../DTO/errors/api-user-is-already-participant-error.dto';
 import { ApiBadRequest } from '../../docs/api/api-bad-request.decorator';
-import { ApiValidationErrorDto } from '../DTO/errors/api-validation-error.dto';
 import { PostMethod } from '../../docs/api/common/methods/post-method.decorator';
 import { GetMethod } from '../../docs/api/common/methods/get-method.decorator';
-import { StartAtInThePastException } from '../../infrastructure/Exceptions/start-at-in-the-past-exception';
 import { ApiStartAtInThePastErrorDto } from '../DTO/errors/api-start-at-in-the-past-error.dto';
 import { GetListingDto } from '../DTO/events/get-listing.dto';
 

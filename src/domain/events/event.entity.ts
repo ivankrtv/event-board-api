@@ -8,7 +8,7 @@ import { EventMood } from '../../enums/event-mood';
 
 @Entity('events')
 export class EventEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column('character varying', { nullable: true })

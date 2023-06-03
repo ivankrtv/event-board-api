@@ -6,7 +6,7 @@ import { UserEntity } from '../users/user.entity';
 
 @Entity('participants')
 export class ParticipantsEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column('character varying')
