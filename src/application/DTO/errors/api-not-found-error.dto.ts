@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class NotFoundExceptionDto {
-  @ApiProperty({ example: 404 })
+export class ApiNotFoundErrorDto {
+  @ApiProperty({ enum: [404] })
   statusCode: 404;
 
   @ApiProperty({ example: 'Event with id: 1 not found' })
   message: string;
 
-  @ApiProperty({ example: 'Not Found' })
+  @ApiProperty({ enum: ['Not Found'] })
   error: 'Not Found';
 }

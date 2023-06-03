@@ -3,36 +3,43 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { EventStatusEnum } from '../../../enums/event-status.enum';
 import { EventEntity } from '../../../domain/events/event.entity';
 import { ParticipantRoleEnum } from '../../../enums/participant-role.enum';
+import { ApiTitleProperty } from '../../../docs/api/common/properties/title-property.decorator';
+import { EventPlaceProperty } from '../../../docs/api/common/properties/event-place-property.decorator';
+import { PeopleNeedProperty } from '../../../docs/api/common/properties/people-need-property.decorator';
+import { ApiDateTimeProperty } from '../../../docs/api/common/properties/datetime-property.decorator';
+import { PeopleJoinedProperty } from '../../../docs/api/common/properties/people-joined-property.decorator';
+import { BooleanProperty } from '../../../docs/api/common/properties/boolean-property.decorator';
+import { UuidProperty } from '../../../docs/api/common/properties/uuid-property.decorator';
 
 export class EventsCardDto {
-  @ApiProperty()
+  @UuidProperty()
   id: number;
 
   @ApiPropertyOptional({ nullable: true })
   image: string;
 
-  @ApiProperty()
+  @ApiTitleProperty()
   title: string;
 
   @ApiProperty({ enum: EventStatusEnum })
   status: EventStatusEnum;
 
-  @ApiProperty()
+  @EventPlaceProperty()
   eventPlace: string;
 
-  @ApiProperty()
+  @PeopleNeedProperty()
   peopleNeed: number;
 
-  @ApiProperty()
+  @PeopleJoinedProperty()
   peopleJoined: number;
 
-  @ApiProperty()
+  @ApiDateTimeProperty()
   startAt: Date;
 
-  @ApiProperty()
+  @BooleanProperty({ description: 'Является ли пользователь участником' })
   isParticipant: boolean;
 
-  @ApiProperty()
+  @BooleanProperty({ description: 'Является ли пользователь организатором' })
   isOrganizer: boolean;
 
   public static createByEventEntityAndUserId(event: EventEntity, userId: number): EventsCardDto {

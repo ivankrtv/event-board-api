@@ -3,11 +3,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { RedocModule } from '@juicyllama/nestjs-redoc';
 import { ValidationPipe } from '@nestjs/common';
-import { ValidationError } from 'class-validator';
 
 import { AppModule } from './app.module';
 import { redocOptions } from '../configs/redoc/redoc-options';
 import { ValidationException } from './infrastructure/Exceptions/ValidationException';
+import { extraModels } from './docs/Dto/extra-models';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -32,7 +32,9 @@ async function bootstrap() {
     .setVersion('0.1.0')
     .build();
 
-  const document = SwaggerModule.createDocument(app, docsConfig);
+  const document = SwaggerModule.createDocument(app, docsConfig, {
+    extraModels: extraModels,
+  });
   await RedocModule.setup('/api', app, document, redocOptions);
 
   await app.listen(8080);
