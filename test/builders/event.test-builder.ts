@@ -8,6 +8,7 @@ import { ParticipantRoleEnum } from '../../src/enums/participant-role.enum';
 import dataSource from '../../configs/datasource';
 import { UserEntity } from '../../src/domain/users/user.entity';
 import { setupUser } from '../utils';
+import { UserTestBuilder } from './user.test-builder';
 
 export class EventTestBuilder {
   constructor() {
@@ -29,19 +30,20 @@ export class EventTestBuilder {
 
   public eventData: EventEntity = new EventEntity();
 
-  public async build(participant: ParticipantsEntity = null): Promise<EventEntity> {
-    let eventOrganizer = participant;
+  public async build(organierUser: UserEntity = null): Promise<EventEntity> {
+    let user: UserEntity = organierUser;
+
+    if (organierUser === null) {
+      const userBuilder = new UserTestBuilder();
+      userBuilder.userData.name = 'organizer';
+      user = await userBuilder.build();
+    }
 
     await dataSource.initialize();
-    if (participant === null) {
-      const userData = setupUser();
-      userData.name = 'organizer';
-      const user = await dataSource.manager.save<UserEntity>(userData);
 
-      eventOrganizer = new ParticipantsEntity();
-      eventOrganizer.role = ParticipantRoleEnum.organizer;
-      eventOrganizer.user = user;
-    }
+    const eventOrganizer = new ParticipantsEntity();
+    eventOrganizer.role = ParticipantRoleEnum.organizer;
+    eventOrganizer.user = user;
     const newEventOrganizer = await dataSource.manager.save<ParticipantsEntity>(eventOrganizer);
 
     this.eventData.participants = [newEventOrganizer];

@@ -7,11 +7,13 @@ import { UserTestBuilder } from '../builders/user.test-builder';
 import { getAuthToken, setupTestingModule } from '../utils';
 import { EventTestBuilder } from '../builders/event.test-builder';
 import { truncateDatabase } from '../../src/infrastructure/database/truncate-database';
+import { ApiUserIsAlreadyParticipantErrorDto } from '../../src/application/DTO/errors/api-user-is-already-participant-error.dto';
 
 describe('Events (e2e)', () => {
   let app: INestApplication;
   let token: string;
   const userBuilder = new UserTestBuilder();
+  const eventBuilder = new EventTestBuilder();
 
   beforeAll(async () => {
     const testModule: TestingModule = await Test.createTestingModule({
@@ -57,6 +59,36 @@ describe('Events (e2e)', () => {
         .send(newEventData);
 
       expect(response).toSatisfyApiSpec();
+    });
+  });
+
+  describe('Join to event', () => {
+    it('success', async () => {
+      const user = await userBuilder.build();
+      const event = await eventBuilder.build();
+
+      const authToken = await getAuthToken(app, user.email);
+
+      const response = await request(app.getHttpServer())
+        .post(`/event/join/${event.id}`)
+        .auth(authToken, { type: 'bearer' });
+
+      expect(response.statusCode).toBe(200);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('user is already participant fail', async () => {
+      const user = await userBuilder.build();
+      const event = await eventBuilder.build(user);
+
+      const authToken = await getAuthToken(app, user.email);
+
+      const response = await request(app.getHttpServer())
+        .post(`/event/join/${event.id}`)
+        .auth(authToken, { type: 'bearer' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toStrictEqual({ ...new ApiUserIsAlreadyParticipantErrorDto() });
     });
   });
 });

@@ -23,7 +23,7 @@ import { GetListingDto } from '../DTO/events/get-listing.dto';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @ApiCreatedResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
+  @ApiOkResponse({ type: NewIdResponseDto, description: 'Event created successfully' })
   @ApiBadRequest(ApiStartAtInThePastErrorDto)
   @PostMethod('/create', 'Create event', true)
   async createEvent(@Body() body: CreateEventDto, @Req() req): Promise<NewIdResponseDto> {
