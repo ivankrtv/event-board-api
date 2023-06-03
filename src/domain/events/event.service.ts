@@ -12,6 +12,7 @@ import { UsersRepository } from '../../infrastructure/repositories/users.reposit
 import { ParticipantsBuilders } from '../participants/participants.builders';
 import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
 import { UserIsAlreadyParticipantException } from '../../infrastructure/Exceptions/UserIsAlreadyParticipantException';
+import { StartAtInThePastException } from '../../infrastructure/Exceptions/start-at-in-the-past-exception';
 
 @Injectable()
 export class EventService {
@@ -24,9 +25,12 @@ export class EventService {
     @Inject('QueueManagerInterface') private readonly queueManager: QueueManagerInterface,
   ) {}
 
+  /**
+   * @throws StartAtInThePastException
+   */
   async createEvent(body: CreateEventDto, userId: number): Promise<NewIdResponseDto> {
     if (new Date(body.startAt) < new Date()) {
-      throw new BadRequestException('Event start time in the past');
+      throw new StartAtInThePastException();
     }
 
     const user = await this.userRepository.getOne(userId);

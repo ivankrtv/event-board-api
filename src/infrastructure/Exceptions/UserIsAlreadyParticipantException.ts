@@ -1,7 +1,9 @@
-import { BadRequestException } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class UserIsAlreadyParticipantException extends BadRequestException {
+import { ApiUserIsAlreadyParticipantErrorDto } from '../../application/DTO/errors/api-user-is-already-participant-error.dto';
+
+export class UserIsAlreadyParticipantException extends HttpException {
   constructor() {
-    super('User is already participant');
+    super(new ApiUserIsAlreadyParticipantErrorDto(), HttpStatus.BAD_REQUEST);
   }
 }
