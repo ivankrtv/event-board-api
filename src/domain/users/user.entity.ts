@@ -7,7 +7,7 @@ import { ImageInfo } from '../types/image-info.type';
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id?: number;
+  id?: string;
 
   @Column('jsonb', { nullable: true })
   image: ImageInfo | null;

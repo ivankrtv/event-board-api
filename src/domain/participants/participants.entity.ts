@@ -7,7 +7,7 @@ import { UserEntity } from '../users/user.entity';
 @Entity('participants')
 export class ParticipantsEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column('character varying')
   role: ParticipantRoleEnum;

@@ -13,7 +13,7 @@ import { UuidProperty } from '../../../docs/api/common/properties/uuid-property.
 
 export class EventsCardDto {
   @UuidProperty()
-  id: number;
+  id: string;
 
   @ApiPropertyOptional({ nullable: true })
   image: string;
@@ -33,7 +33,7 @@ export class EventsCardDto {
   @PeopleJoinedProperty()
   peopleJoined: number;
 
-  @ApiDateTimeProperty()
+  @ApiProperty()
   startAt: Date;
 
   @BooleanProperty({ description: 'Является ли пользователь участником' })
@@ -42,7 +42,7 @@ export class EventsCardDto {
   @BooleanProperty({ description: 'Является ли пользователь организатором' })
   isOrganizer: boolean;
 
-  public static createByEventEntityAndUserId(event: EventEntity, userId: number): EventsCardDto {
+  public static createByEventEntityAndUserId(event: EventEntity, userId: string): EventsCardDto {
     const eventCard = new EventsCardDto(event);
     const participant = event.participants.find(
       (participantUser) => participantUser.role === ParticipantRoleEnum.joiner,

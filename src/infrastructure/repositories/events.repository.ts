@@ -42,7 +42,7 @@ export class EventsRepository implements FileEventRepositoryInterface {
       .getManyAndCount();
   }
 
-  async getOne(id: number): Promise<EventEntity> {
+  async getOne(id: string): Promise<EventEntity> {
     return await this.repo
       .createQueryBuilder('events')
       .leftJoinAndSelect('events.participants', 'participants')

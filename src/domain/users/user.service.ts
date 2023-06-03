@@ -1,6 +1,5 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { UsersRepository } from '../../infrastructure/repositories/users.repository';
 import { UserRegistrationDto } from '../../application/DTO/users/user-registration.dto';
 import { UsersBuilders } from './users.builders';
 import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interface';

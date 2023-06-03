@@ -8,8 +8,8 @@ type ImageInfo = {
 };
 
 type FileTokenPayload = {
-  userId: number | null;
-  eventId: number | null;
+  userId: string | null;
+  eventId: string | null;
   maxImageSize?: number;
 };
 
