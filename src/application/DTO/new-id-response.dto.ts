@@ -1,4 +1,4 @@
-import { UuidProperty } from '../../docs/api/common/properties/uuid-property.decorator';
+import { UuidProperty } from '../../../docs/api/common/properties/uuid-property.decorator';
 
 export class NewIdResponseDto {
   @UuidProperty()
