@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { redocOptions } from '../configs/redoc/redoc-options';
 import { ValidationException } from './infrastructure/Exceptions/ValidationException';
-import { extraModels } from './docs/Dto/extra-models';
+import { extraModels } from '../docs/Dto/extra-models';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

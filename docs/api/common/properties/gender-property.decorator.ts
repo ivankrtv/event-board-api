@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { GenderEnum } from '../../../../enums/gender.enum';
+import { GenderEnum } from '../../../../src/enums/gender.enum';
 
 export function GenderProperty() {
   return applyDecorators(

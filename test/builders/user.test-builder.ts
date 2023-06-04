@@ -7,7 +7,14 @@ export class UserTestBuilder {
     this.userData.name = 'username';
     this.userData.email = 'username@test.ru';
     this.userData.password = '$2b$10$bLwg92KWdmcpNYD22iUqoerkfg/lU6e9RSOjpiWWdpyae6587CQPC';
-    this.userData.image = null;
+    this.userData.image = {
+      meta: {
+        size: 256000,
+        name: 'avatar.jpeg',
+        mimetype: 'image/jpg',
+      },
+      url: 'https://example/avatar.jpeg',
+    };
     this.userData.dormitory = '19';
     this.userData.gender = GenderEnum.male;
     this.userData.group = '3531201/80201';

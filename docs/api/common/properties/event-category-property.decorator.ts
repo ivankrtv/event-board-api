@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { EventCategory } from '../../../../enums/event-category';
+import { EventCategory } from '../../../../src/enums/event-category';
 
 export function EventCategoryProperty() {
   return applyDecorators(

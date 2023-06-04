@@ -6,6 +6,7 @@ import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interfac
 import { UserUserRepositoryInterface } from '../repositories-interfaces/user.user-repository.interface';
 import { UpdateImageDto } from '../../application/DTO/users/update-image.dto';
 import { ImageUploadManager } from '../../infrastructure/managers/image-upload.manager';
+import { GetProfileInfoResponseDto } from '../../application/DTO/users/get-profile-info-response.dto';
 
 @Injectable()
 export class UserService {
@@ -41,5 +42,14 @@ export class UserService {
 
     user.image = fileInfo;
     await this.usersRepository.save(user);
+  }
+
+  async getProfileInfo(userId: string): Promise<GetProfileInfoResponseDto> {
+    const user = await this.usersRepository.getOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return new GetProfileInfoResponseDto(user.id, user.name, user.image?.url);
   }
 }
