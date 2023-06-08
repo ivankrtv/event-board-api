@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { CreateEventDto } from '../../application/DTO/events/create-event.dto';
 import { EventEntity } from './event.entity';
 import { EventStatusEnum } from '../../enums/event-status.enum';
@@ -16,6 +17,8 @@ export class EventsBuilders {
     event.gender = body.gender;
     event.eventPlace = body.eventPlace;
     event.status = EventStatusEnum.active;
+    event.category = body.category;
+    event.mood = body.mood;
 
     return event;
   }

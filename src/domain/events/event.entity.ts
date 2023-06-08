@@ -1,12 +1,15 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { EventStatusEnum } from '../../enums/event-status.enum';
 import { EventsGenderEnum } from '../../enums/events-gender.enum';
 import { ParticipantsEntity } from '../participants/participants.entity';
+import { EventCategory } from '../../enums/event-category';
+import { EventMood } from '../../enums/event-mood';
 
 @Entity('events')
 export class EventEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column('character varying', { nullable: true })
   image: string;
@@ -27,6 +30,15 @@ export class EventEntity {
   peopleJoined: number;
 
   @Column('character varying')
+  category: EventCategory;
+
+  @Column('character varying')
+  mood: EventMood;
+
+  @Column('character varying', { nullable: true })
+  dormitory: string;
+
+  @Column('character varying')
   status: EventStatusEnum;
 
   @Column('timestamp without time zone', { name: 'start_at' })
@@ -39,5 +51,5 @@ export class EventEntity {
   createdAt: Date;
 
   @OneToMany(() => ParticipantsEntity, (participant) => participant.event)
-  users: ParticipantsEntity[];
+  participants: ParticipantsEntity[];
 }

@@ -1,22 +1,53 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { EventsGenderEnum } from '../../../enums/events-gender.enum';
+import { EventCategory } from '../../../enums/event-category';
+import { EventMood } from '../../../enums/event-mood';
+import { TitleDeserialize } from '../../../infrastructure/validators/title.validator';
+import { ApiTitleProperty } from '../../../../docs/api/common/properties/title-property.decorator';
+import { DescriptionDeserialize } from '../../../infrastructure/validators/description.validator';
+import { ApiDescriptionProperty } from '../../../../docs/api/common/properties/description-propery.decorator';
+import { ApiDateTimeProperty } from '../../../../docs/api/common/properties/datetime-property.decorator';
+import { DateTimeDenormalize } from '../../../infrastructure/validators/date-time.validator';
+import { EventPlaceValidator } from '../../../infrastructure/validators/event-place.validator';
+import { PeopleNeedValidator } from '../../../infrastructure/validators/people-need.validator';
+import { EventCategoryValidator } from '../../../infrastructure/validators/event-category.validator';
+import { EventMoodValidator } from '../../../infrastructure/validators/event-mood.validator';
+import { EventPlaceProperty } from '../../../../docs/api/common/properties/event-place-property.decorator';
+import { PeopleNeedProperty } from '../../../../docs/api/common/properties/people-need-property.decorator';
+import { EventCategoryProperty } from '../../../../docs/api/common/properties/event-category-property.decorator';
+import { EventMoodProperty } from '../../../../docs/api/common/properties/event-mood-property.decorator';
+import { EventGenderProperty } from '../../../../docs/api/common/properties/event-gender-property.decorator';
+import { EventGenderValidator } from '../../../infrastructure/validators/event-gender.validator';
 
 export class CreateEventDto {
-  @ApiProperty({ example: 'Мафия на 12 человек' })
+  @TitleDeserialize()
+  @ApiTitleProperty()
   title: string;
 
-  @ApiProperty()
+  @DescriptionDeserialize()
+  @ApiDescriptionProperty()
   description: string;
 
-  @ApiProperty()
+  @EventPlaceValidator()
+  @EventPlaceProperty()
   eventPlace: string;
 
-  @ApiProperty()
+  @PeopleNeedValidator()
+  @PeopleNeedProperty()
   peopleNeed: number;
 
-  @ApiProperty({ example: '2023-11-20T18:00:00' })
+  @EventCategoryValidator()
+  @EventCategoryProperty()
+  category: EventCategory;
+
+  @EventMoodValidator()
+  @EventMoodProperty()
+  mood: EventMood;
+
+  @DateTimeDenormalize()
+  @ApiDateTimeProperty({ description: 'Время начала' })
   startAt: Date;
 
-  @ApiProperty({ enum: EventsGenderEnum })
+  @EventGenderValidator()
+  @EventGenderProperty()
   gender: EventsGenderEnum;
 }

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 import { GenderEnum } from '../../../enums/gender.enum';
 
 export class UserRegistrationDto {

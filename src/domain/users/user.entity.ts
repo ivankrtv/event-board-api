@@ -1,11 +1,16 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { GenderEnum } from '../../enums/gender.enum';
 import { ParticipantsEntity } from '../participants/participants.entity';
+import { ImageInfo } from '../types/image-info.type';
 
 @Entity('users')
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
+
+  @Column('jsonb', { nullable: true })
+  image: ImageInfo | null;
 
   @Column('character varying')
   name: string;

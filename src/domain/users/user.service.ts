@@ -1,15 +1,20 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { UsersRepository } from '../../infrastructure/repositories/users.repository';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+
 import { UserRegistrationDto } from '../../application/DTO/users/user-registration.dto';
-import { HashWorker } from '../../infrastructure/hash-workers/hash-worker';
 import { UsersBuilders } from './users.builders';
+import { HashWorkerInterface } from '../managers-interfaces/hash-worker.interface';
+import { UserUserRepositoryInterface } from '../repositories-interfaces/user.user-repository.interface';
+import { UpdateImageDto } from '../../application/DTO/users/update-image.dto';
+import { ImageUploadManager } from '../../infrastructure/managers/image-upload.manager';
+import { GetProfileInfoResponseDto } from '../../application/DTO/users/get-profile-info-response.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly hashWorker: HashWorker,
+    @Inject('UserUserRepositoryInterface') private readonly usersRepository: UserUserRepositoryInterface,
+    @Inject('HashWorkerInterface') private readonly hashWorker: HashWorkerInterface,
     private readonly userBuilders: UsersBuilders,
+    private readonly imageUploadManager: ImageUploadManager,
   ) {}
 
   async registration(body: UserRegistrationDto): Promise<void> {
@@ -22,9 +27,29 @@ export class UserService {
       throw new BadRequestException('User with this email is already exist');
     }
 
-    const password = await this.hashWorker.getHash(body.password);
+    const password = this.hashWorker.getHash(body.password);
     const newUser = this.userBuilders.buildUserEntity(body, password);
 
     await this.usersRepository.save(newUser);
+  }
+
+  async uploadAvatar(body: UpdateImageDto): Promise<void> {
+    const fileInfo = this.imageUploadManager.decode(body.token);
+    const user = await this.usersRepository.getOne(body.userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.image = fileInfo;
+    await this.usersRepository.save(user);
+  }
+
+  async getProfileInfo(userId: string): Promise<GetProfileInfoResponseDto> {
+    const user = await this.usersRepository.getOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return new GetProfileInfoResponseDto(user.id, user.name, user.image?.url);
   }
 }

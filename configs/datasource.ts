@@ -1,9 +1,7 @@
 import * as dotenv from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { loadConfig } from "./configuration";
-import {UserEntity} from "../src/domain/users/user.entity";
-import {EventEntity} from "../src/domain/events/event.entity";
-import {ParticipantsEntity} from "../src/domain/participants/participants.entity";
+
+import { loadConfig } from './configuration';
 
 dotenv.config();
 const { db } = loadConfig();
@@ -15,7 +13,7 @@ const dataSourceOptions: DataSourceOptions = {
   username: db.username,
   password: db.password,
   database: db.database,
-  entities: [UserEntity, EventEntity, ParticipantsEntity],
+  entities: ['src/**/*.entity{.ts,.js}'],
   migrations: ['src/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 };

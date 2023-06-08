@@ -1,4 +1,4 @@
-![img.png](github/images/ph.jpg)
+![img.png](.github/images/ph.jpg)
 
 ## Description
 
@@ -21,6 +21,17 @@ $ git clone git@github.com:ivankrtv/event-board-api.git
 
 # используя http
 $ git clone https://github.com/ivankrtv/event-board-api.git
+```
+
+### Запуск через docker-compose
+Чтобы запустить приложение, после клонирования этого репозитория, вам нужно убедиться, что вы указали все env 
+переменные в [.env файле](https://github.com/ivankrtv/event-board-api#environments) в корне проекта.
+
+После этого достаточно запустить docker-compose и он поднимет вам приложение.
+
+Запускать можно либо через свою IDE, либо командой, **находясь в корне проекта**
+```bash
+$ docker compose up
 ```
 
 ### Загрузка пакетов:
@@ -58,6 +69,24 @@ RABBIT_PASSWORD=
 RABBIT_HOST=
 RABBIT_PORT=
 RABBIT_QUEUE_NAME=
+
+# JWT
+# В качестве секрета можно использовать любую строку
+JWT_ACCESS_SECRET=
+# Время жизни в секундах (для удобства разработки у себя 
+# можно поставить занчение побольше, чтобы каждый раз не обращатсья к /refresh)
+JWT_ACCESS_EXPIRES_IN=
+
+# То же самое только для refresh токена
+JWT_REFRESH_SECRET=
+# Время жизни в секундах
+JWT_REFRESH_EXPIRES_IN=2592000
+
+# IUS
+# (IUS - image-upload-s3, сервис загрузки изображений)
+# параметры JWT для IUS (параметры должны совпадать с соответствующими настройками у сервиса)
+IUS_JWT_SECRET=
+IUS_JWT_EXPIRES_IN=900
 ```
 
 ## Database installation (postgres)

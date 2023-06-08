@@ -1,7 +1,8 @@
-import { AppModule } from '../app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from '../app.module';
+import * as fs from 'fs';
 
 async function buildOpenAPI() {
   const path = process.argv[2];
