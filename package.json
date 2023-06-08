@@ -25,7 +25,7 @@
     "migration:create": "typeorm migration:create src/migrations/$name",
     "migration:run": "npm run typeorm:cli -- migration:run",
     "migration:revert": "npm run typeorm:cli -- migration:revert",
-    "clear-database": "ts-node scripts/clear-database.ts"
+    "clear-database": "ts-node scripts/clear-database.ts",
     "doc:build": "ts-node ./src/documentation/build-open-api.ts ./openAPI.json"
   },
   "dependencies": {
