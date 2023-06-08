@@ -1,5 +1,5 @@
 import { Body, Controller, Param, Req } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { EventService } from '../../domain/events/event.service';
 import { CreateEventDto } from '../DTO/events/create-event.dto';

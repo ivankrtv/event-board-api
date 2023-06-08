@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ApiNotFoundErrorDto {
+export class ApiUnauthorizedErrorDto {
   @ApiProperty({ enum: [401] })
   statusCode: 401;
 

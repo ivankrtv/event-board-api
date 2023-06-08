@@ -8,6 +8,8 @@ import { getAuthToken, setupTestingModule } from '../utils';
 import { EventTestBuilder } from '../builders/event.test-builder';
 import { truncateDatabase } from '../../src/infrastructure/database/truncate-database';
 import { ApiUserIsAlreadyParticipantErrorDto } from '../../src/application/DTO/errors/api-user-is-already-participant-error.dto';
+import { randomUUID } from 'crypto';
+import { ApiStartAtInThePastErrorDto } from '../../src/application/DTO/errors/api-start-at-in-the-past-error.dto';
 
 describe('Events (e2e)', () => {
   let app: INestApplication;
@@ -60,6 +62,27 @@ describe('Events (e2e)', () => {
 
       expect(response).toSatisfyApiSpec();
     });
+
+    it('startAt in the past fail', async () => {
+      const newEventData = {
+        title: 'Мафия на 12 человек',
+        description: 'Мафия на 12 человек',
+        eventPlace: 'Парк Горького',
+        peopleNeed: 10,
+        category: 'polytechOffical',
+        mood: 'calm',
+        startAt: new Date('2023-01-02T18:00:00'),
+        gender: 'all',
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/event/create')
+        .auth(token, { type: 'bearer' })
+        .send(newEventData);
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toStrictEqual({ ...new ApiStartAtInThePastErrorDto() });
+    });
   });
 
   describe('Join to event', () => {
@@ -89,6 +112,15 @@ describe('Events (e2e)', () => {
 
       expect(response.statusCode).toBe(400);
       expect(response.body).toStrictEqual({ ...new ApiUserIsAlreadyParticipantErrorDto() });
+    });
+
+    it('event not found fail', async () => {
+      const response = await request(app.getHttpServer())
+        .post(`/event/join/${randomUUID()}`)
+        .auth(token, { type: 'bearer' });
+
+      expect(response.statusCode).toBe(404);
+      expect(response).toSatisfyApiSpec();
     });
   });
 });

@@ -28,7 +28,7 @@ function TitleValidate(validationOptions?: ValidationOptions) {
 
 function TitleDeserialize(property?: { nonEmpty: boolean }) {
   const isNonEmpty = property?.nonEmpty ?? true;
-  const decoratorsArray = [IsString(), MaxLength(30), TitleValidate()];
+  const decoratorsArray = [IsString(), MaxLength(30, { message: 'error epta' }), TitleValidate({ message: 'reg' })];
   if (isNonEmpty) {
     decoratorsArray.push(MinLength(1, { message: 'expected no empty string' }));
   }
