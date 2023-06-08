@@ -26,6 +26,7 @@
     "migration:run": "npm run typeorm:cli -- migration:run",
     "migration:revert": "npm run typeorm:cli -- migration:revert",
     "clear-database": "ts-node scripts/clear-database.ts"
+    "doc:build": "ts-node ./src/documentation/build-open-api.ts ./openAPI.json"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
