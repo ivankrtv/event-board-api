@@ -6,10 +6,11 @@ import { ParticipantRoleEnum } from '../../../enums/participant-role.enum';
 import { ApiTitleProperty } from '../../../../docs/api/common/properties/title-property.decorator';
 import { EventPlaceProperty } from '../../../../docs/api/common/properties/event-place-property.decorator';
 import { PeopleNeedProperty } from '../../../../docs/api/common/properties/people-need-property.decorator';
-import { ApiDateTimeProperty } from '../../../../docs/api/common/properties/datetime-property.decorator';
 import { PeopleJoinedProperty } from '../../../../docs/api/common/properties/people-joined-property.decorator';
 import { BooleanProperty } from '../../../../docs/api/common/properties/boolean-property.decorator';
 import { UuidProperty } from '../../../../docs/api/common/properties/uuid-property.decorator';
+import { EventCategory } from '../../../enums/event-category';
+import { EventCategoryProperty } from '../../../../docs/api/common/properties/event-category-property.decorator';
 
 export class EventsCardDto {
   @UuidProperty()
@@ -32,6 +33,9 @@ export class EventsCardDto {
 
   @PeopleJoinedProperty()
   peopleJoined: number;
+
+  @EventCategoryProperty()
+  category: EventCategory;
 
   @ApiProperty()
   startAt: Date;
@@ -70,6 +74,7 @@ export class EventsCardDto {
     this.eventPlace = event.eventPlace;
     this.peopleNeed = event.peopleNeed;
     this.peopleJoined = event.peopleJoined;
+    this.category = event.category;
     this.startAt = event.startAt;
     this.isParticipant = false;
     this.isOrganizer = false;
