@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { EventEntity } from '../../domain/events/event.entity';
 import { FileEventRepositoryInterface } from '../../domain/repositories-interfaces/file.event-repository.interface';
+import { ParticipantRoleEnum } from '../../enums/participant-role.enum';
 
 @Injectable()
 export class EventsRepository implements FileEventRepositoryInterface {
@@ -36,5 +37,22 @@ export class EventsRepository implements FileEventRepositoryInterface {
       .leftJoinAndSelect('participants.user', 'users')
       .where('events.id = :id', { id: id })
       .getOne();
+  }
+
+  async getOneWithOrganizerOrFail(id: string): Promise<EventEntity> {
+    const event = await this.repo
+      .createQueryBuilder('events')
+      .innerJoinAndSelect('events.participants', 'participants', 'participants.role = :role', {
+        role: ParticipantRoleEnum.organizer,
+      })
+      .innerJoinAndSelect('participants.user', 'users')
+      .where('events.id = :id', { id: id })
+      .getOne();
+
+    if (!event) {
+      throw new NotFoundException(`Event with id: ${id} not found`);
+    }
+
+    return event;
   }
 }

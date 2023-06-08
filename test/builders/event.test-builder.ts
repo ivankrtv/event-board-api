@@ -3,12 +3,14 @@ import { EventMood } from '../../src/enums/event-mood';
 import { EventsGenderEnum } from '../../src/enums/events-gender.enum';
 import { EventCategory } from '../../src/enums/event-category';
 import { EventStatusEnum } from '../../src/enums/event-status.enum';
-import { ParticipantsEntity } from '../../src/domain/participants/participants.entity';
 import { ParticipantRoleEnum } from '../../src/enums/participant-role.enum';
 import dataSource from '../../configs/datasource';
 import { UserEntity } from '../../src/domain/users/user.entity';
-import { setupUser } from '../utils';
 import { UserTestBuilder } from './user.test-builder';
+import { ParticipantsTestBuilder } from './participants.test-builder';
+import { ParticipantsEntity } from '../../src/domain/participants/participants.entity';
+import { EventsTransactions } from '../../src/infrastructure/transactions/events.transactions';
+import { randomUUID } from 'crypto';
 
 export class EventTestBuilder {
   constructor() {
@@ -30,10 +32,10 @@ export class EventTestBuilder {
 
   public eventData: EventEntity = new EventEntity();
 
-  public async build(organierUser: UserEntity = null): Promise<EventEntity> {
-    let user: UserEntity = organierUser;
+  public async build(organizerUser: UserEntity = null): Promise<EventEntity> {
+    let user: UserEntity = organizerUser;
 
-    if (organierUser === null) {
+    if (organizerUser === null) {
       const userBuilder = new UserTestBuilder();
       userBuilder.userData.name = 'organizer';
       user = await userBuilder.build();
@@ -41,13 +43,16 @@ export class EventTestBuilder {
 
     await dataSource.initialize();
 
+    const newId = randomUUID();
+
     const eventOrganizer = new ParticipantsEntity();
     eventOrganizer.role = ParticipantRoleEnum.organizer;
     eventOrganizer.user = user;
     const newEventOrganizer = await dataSource.manager.save<ParticipantsEntity>(eventOrganizer);
 
     this.eventData.participants = [newEventOrganizer];
-    this.eventData = await dataSource.manager.save<EventEntity>(this.eventData);
+    this.eventData.id = newId;
+    await dataSource.manager.save<EventEntity>(this.eventData);
 
     await dataSource.destroy();
 

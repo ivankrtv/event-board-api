@@ -10,12 +10,16 @@ import { truncateDatabase } from '../../src/infrastructure/database/truncate-dat
 import { ApiUserIsAlreadyParticipantErrorDto } from '../../src/application/DTO/errors/api-user-is-already-participant-error.dto';
 import { randomUUID } from 'crypto';
 import { ApiStartAtInThePastErrorDto } from '../../src/application/DTO/errors/api-start-at-in-the-past-error.dto';
+import { ParticipantsTestBuilder } from '../builders/participants.test-builder';
+import { ParticipantRoleEnum } from '../../src/enums/participant-role.enum';
+import { EventResponseDto } from '../../src/application/DTO/events/event-response.dto';
 
 describe('Events (e2e)', () => {
   let app: INestApplication;
   let token: string;
   const userBuilder = new UserTestBuilder();
   const eventBuilder = new EventTestBuilder();
+  const participantBuilder = new ParticipantsTestBuilder();
 
   beforeAll(async () => {
     const testModule: TestingModule = await Test.createTestingModule({
@@ -118,6 +122,29 @@ describe('Events (e2e)', () => {
       const response = await request(app.getHttpServer())
         .post(`/event/join/${randomUUID()}`)
         .auth(token, { type: 'bearer' });
+
+      expect(response.statusCode).toBe(404);
+      expect(response).toSatisfyApiSpec();
+    });
+  });
+
+  describe('get event', () => {
+    it('success', async () => {
+      const organizer = await userBuilder.build();
+      const event = await eventBuilder.build(organizer);
+
+      const newParticipant = await userBuilder.build();
+      const authToken = await getAuthToken(app, newParticipant.email);
+      await participantBuilder.build(event, newParticipant, ParticipantRoleEnum.joiner);
+
+      const response = await request(app.getHttpServer()).get(`/event/${event.id}`).auth(authToken, { type: 'bearer' });
+
+      expect(response.statusCode).toBe(200);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('event not found fail', async () => {
+      const response = await request(app.getHttpServer()).get(`/event/${randomUUID()}`).auth(token, { type: 'bearer' });
 
       expect(response.statusCode).toBe(404);
       expect(response).toSatisfyApiSpec();
