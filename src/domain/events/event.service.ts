@@ -13,6 +13,7 @@ import { ParticipantsBuilders } from '../participants/participants.builders';
 import { EventsTransactions } from '../../infrastructure/transactions/events.transactions';
 import { UserIsAlreadyParticipantException } from '../../infrastructure/Exceptions/UserIsAlreadyParticipantException';
 import { StartAtInThePastException } from '../../infrastructure/Exceptions/start-at-in-the-past-exception';
+import { EventResponseDto } from '../../application/DTO/events/event-response.dto';
 
 @Injectable()
 export class EventService {
@@ -73,5 +74,14 @@ export class EventService {
 
     const participant = this.participantBuilders.buildParticipant(user);
     await this.eventTransactions.joinToEvent(event, participant);
+  }
+
+  async getEvent(id: string): Promise<EventResponseDto> {
+    const event = await this.eventsRepository.getOneWithOrganizerOrFail(id);
+    if (!event) {
+      throw new NotFoundException(`Event with id: ${id} not found`);
+    }
+
+    return new EventResponseDto(event);
   }
 }

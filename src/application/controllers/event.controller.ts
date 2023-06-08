@@ -16,6 +16,8 @@ import { PostMethod } from '../../../docs/api/common/methods/post-method.decorat
 import { GetMethod } from '../../../docs/api/common/methods/get-method.decorator';
 import { ApiStartAtInThePastErrorDto } from '../DTO/errors/api-start-at-in-the-past-error.dto';
 import { GetListingDto } from '../DTO/events/get-listing.dto';
+import { GetEventByIdDto } from '../DTO/events/get-event-by-id.dto';
+import { EventResponseDto } from '../DTO/events/event-response.dto';
 
 @Auth()
 @ApiTags('event')
@@ -35,6 +37,14 @@ export class EventController {
   @GetMethod('/list/:page', 'list events', true)
   async getEventsList(@Param() params: GetListingDto, @Req() req): Promise<PaginatedDto<EventsCardDto>> {
     return await this.eventService.getEventsList(params.page, req.user.id);
+  }
+
+  @ApiOkResponse({ type: EventResponseDto, description: 'Информация о событии' })
+  @ApiBadRequest()
+  @ApiNotFoundResponse({ type: ApiNotFoundErrorDto, description: 'Event not found' })
+  @GetMethod('/:id', 'get event', true)
+  async getEvent(@Param() params: GetEventByIdDto): Promise<EventResponseDto> {
+    return await this.eventService.getEvent(params.id);
   }
 
   @ApiOkResponse({ description: 'Joined success' })

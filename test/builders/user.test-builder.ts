@@ -1,6 +1,7 @@
 import { UserEntity } from '../../src/domain/users/user.entity';
 import { GenderEnum } from '../../src/enums/gender.enum';
 import dataSource from '../../configs/datasource';
+import { randomUUID } from 'crypto';
 
 export class UserTestBuilder {
   constructor() {
@@ -24,10 +25,17 @@ export class UserTestBuilder {
   public userData: UserEntity = new UserEntity();
 
   public async build(): Promise<UserEntity> {
+    const newId = randomUUID();
+
     await dataSource.initialize();
-    this.userData = await dataSource.manager.save<UserEntity>(this.userData);
+    await dataSource.manager.insert(UserEntity, { id: newId, ...this.userData });
     await dataSource.destroy();
 
-    return this.userData;
+    return { id: newId, ...this.userData };
+  }
+
+  public withEmail(email: string): this {
+    this.userData.email = email;
+    return this;
   }
 }

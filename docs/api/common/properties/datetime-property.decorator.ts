@@ -5,7 +5,7 @@ export function ApiDateTimeProperty(property?: { description: string }) {
   return applyDecorators(
     ApiProperty({
       example: '2023-11-20T18:00:00',
-      type: 'Date',
+      type: 'string',
       title: 'Дата со временем',
       format: 'datetime',
       pattern: 'YYYY-MM-DDTHH:mm:ss',

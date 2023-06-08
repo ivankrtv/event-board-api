@@ -11,12 +11,12 @@ import { EventPlaceValidator } from '../../../infrastructure/validators/event-pl
 import { PeopleNeedValidator } from '../../../infrastructure/validators/people-need.validator';
 import { EventCategoryValidator } from '../../../infrastructure/validators/event-category.validator';
 import { EventMoodValidator } from '../../../infrastructure/validators/event-mood.validator';
-import { GenderValidator } from '../../../infrastructure/validators/gender.validator';
 import { EventPlaceProperty } from '../../../../docs/api/common/properties/event-place-property.decorator';
 import { PeopleNeedProperty } from '../../../../docs/api/common/properties/people-need-property.decorator';
 import { EventCategoryProperty } from '../../../../docs/api/common/properties/event-category-property.decorator';
 import { EventMoodProperty } from '../../../../docs/api/common/properties/event-mood-property.decorator';
-import { GenderProperty } from '../../../../docs/api/common/properties/gender-property.decorator';
+import { EventGenderProperty } from '../../../../docs/api/common/properties/event-gender-property.decorator';
+import { EventGenderValidator } from '../../../infrastructure/validators/event-gender.validator';
 
 export class CreateEventDto {
   @TitleDeserialize()
@@ -47,7 +47,7 @@ export class CreateEventDto {
   @ApiDateTimeProperty({ description: 'Время начала' })
   startAt: Date;
 
-  @GenderValidator()
-  @GenderProperty()
+  @EventGenderValidator()
+  @EventGenderProperty()
   gender: EventsGenderEnum;
 }
