@@ -28,7 +28,7 @@
         "prettier/prettier": "error",
         "import/no-duplicates": "off",
         "import/no-unresolved": "off",
-        "import/group-exports": "error",
+        "import/group-exports": "off",
         "import/namespace": "off",
         "import/order": [
             "error",

@@ -1,16 +1,16 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { StringProperty } from '@ivankrtv/openapidoc/dist';
 
-import { ApiNameProperty } from '../../../../docs/api/common/properties/api-name-property.decorator';
-import { UuidProperty } from '../../../../docs/api/common/properties/uuid-property.decorator';
+import { idUuidProperty } from '../../../../docs/openapi/customPropertyDecorators/id-uuid.property';
+import { ImageUrlProperty } from '../../../../docs/openapi/customPropertyDecorators/image-url.property';
 
 export class GetProfileInfoResponseDto {
-  @UuidProperty()
+  @idUuidProperty()
   readonly id: string;
 
-  @ApiNameProperty()
+  @StringProperty({ description: 'Имя пользователя', example: 'Иван' })
   name: string;
 
-  @ApiProperty({ nullable: true })
+  @ImageUrlProperty({ nullable: true })
   image: string | null;
 
   constructor(id: string, name: string, image: string | null) {

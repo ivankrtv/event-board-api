@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { RedocModule } from '@juicyllama/nestjs-redoc';
 import { ValidationPipe } from '@nestjs/common';
@@ -8,6 +8,7 @@ import { AppModule } from './app.module';
 import { redocOptions } from '../configs/redoc/redoc-options';
 import { ValidationException } from './infrastructure/Exceptions/ValidationException';
 import { extraModels } from '../docs/Dto/extra-models';
+import { eventBoardDocument } from '../docs/openapi/openapi';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -36,6 +37,8 @@ async function bootstrap() {
     extraModels: extraModels,
   });
   await RedocModule.setup('/api', app, document, redocOptions);
+
+  SwaggerModule.setup('/api/docs', app, eventBoardDocument as OpenAPIObject);
 
   await app.listen(8080);
   console.log('server start on 8080');
