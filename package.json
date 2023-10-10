@@ -29,11 +29,12 @@
     "doc:build": "ts-node ./src/documentation/build-open-api.ts ./openAPI.json"
   },
   "dependencies": {
+    "@ivankrtv/openapidoc": "^0.3.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
-    "@nestjs/swagger": "^6.2.1",
+    "@nestjs/swagger": "^7.1.1",
     "@nestjs/typeorm": "^9.0.0",
     "amqplib": "^0.10.3",
     "bcrypt": "^5.1.0",

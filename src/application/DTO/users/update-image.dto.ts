@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { IdProperty } from '../../../../docs/openapi/customPropertyDecorators/id.property';
+import { JwtProperty } from '../../../../docs/openapi/customPropertyDecorators/jwt.property';
 
 export class UpdateImageDto {
-  @ApiProperty()
+  @IdProperty()
   userId: string;
 
-  @ApiProperty({ description: 'token with image info from image-upload-s3' })
+  @JwtProperty()
   token: string;
 }
